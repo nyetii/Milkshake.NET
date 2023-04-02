@@ -15,7 +15,7 @@ namespace Milkshake.Models
         Object = 4,
         Shitpost = 8,
         Picture = 16, // Any real life photo or screenshot which doesn't fit in the former Tags.
-        Post = 32, // Social media screenshots
+        Post = 32, // Social media screenshots.
         Text = 64  // Billboards, signs, etc.
     }
 }
