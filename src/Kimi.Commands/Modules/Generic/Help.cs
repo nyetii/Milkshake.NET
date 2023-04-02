@@ -5,11 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Interactions;
+using Milkshake;
+using Milkshake.Models;
 
 namespace Kimi.Commands.Modules.Generic
 {
     public class Help : InteractionModuleBase<SocketInteractionContext>
     {
+        private MilkshakeService _milkshake = new MilkshakeService();
+
         [SlashCommand("help", "Milkshake comes in clutch!")]
         public async Task HandleHelpCommand()
         {
@@ -46,6 +50,26 @@ namespace Kimi.Commands.Modules.Generic
 
             await Task.CompletedTask;
             return embed;
+        }
+
+        [SlashCommand("magicktest", "Test")]
+        public async Task Test(string a)
+        {
+            _milkshake.Log += Kimi.Logging.Log.Write;
+            var test = new MagickTest(_milkshake);
+            await DeferAsync();
+            await test.Test(a);
+            await FollowupWithFileAsync(@"C:\Users\Netty\Desktop\test.png");
+        }
+
+        [SlashCommand("magicktesttwo", "Test")]
+        public async Task Test2(string a, ImageTags tag, ImageTags? tag2 = null, ImageTags? tag3 = null)
+        {
+            _milkshake.Log += Kimi.Logging.Log.Write;
+            var test = new MagickTest(_milkshake);
+            await DeferAsync();
+            await test.Test(a);
+            await FollowupWithFileAsync(@"C:\Users\Netty\Desktop\test.png");
         }
     }
 }

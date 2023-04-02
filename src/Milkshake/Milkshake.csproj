@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="13.0.1" />
+    <PackageReference Include="Magick.NET.Core" Version="13.0.1" />
+  </ItemGroup>
+
 </Project>

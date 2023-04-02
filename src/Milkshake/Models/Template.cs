@@ -15,5 +15,7 @@ namespace Milkshake.Models
         public string Path { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
+
+        public List<TemplateProperties> Properties { get; set; } = new();
     }
 }

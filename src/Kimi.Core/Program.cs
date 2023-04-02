@@ -48,8 +48,7 @@ namespace Kimi.Core
                 .AddSingleton(x => new InteractionService(x.GetRequiredService<DiscordSocketClient>()))
                 .AddSingleton(x => new CommandService())
                 .AddSingleton<CommandHandler>()
-                .AddSingleton<LoggerService>()
-                .AddSingleton<Milkshake.MilkshakeService>())
+                .AddSingleton<LoggerService>())
                 .Build();
 
             await RunAsync(host);
@@ -72,10 +71,6 @@ namespace Kimi.Core
 
             _client.Log += Log.Write;
             sCommands.Log += Log.Write;
-            provider.GetRequiredService<Milkshake.MilkshakeService>().Log += Log.Write;
-
-            provider.GetRequiredService<Milkshake.MilkshakeService>().Test();
-            new Milkshake.MilkshakeService().Test();
 
             _client.Ready += async () =>
             {

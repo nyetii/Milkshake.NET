@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Milkshake.Models.Interfaces
 {
-    internal interface IMedia
+    public interface IMedia
     {
         public string Id { get; set; }
         public string Name { get; set; }
