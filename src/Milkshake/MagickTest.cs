@@ -23,13 +23,13 @@ namespace Milkshake
             using var image =
                 new MagickImage(@"K:\_BCK\Milkshake Simulator\images\" + ab);
 
-            IMedia a = new Source();
+            //IMedia a = new Source();
 
-            a.Id = "43242";
-            a.Name = "test";
-            a.Path = "a";
-            a.Height = image.Height;
-            a.Width = image.Width;
+            //a.Id = "43242";
+            //a.Name = "test";
+            //a.Path = "a";
+            //a.Height = image.Height;
+            //a.Width = image.Width;
 
             await image.WriteAsync(@"C:\Users\Netty\Desktop\test.png");
 

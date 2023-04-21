@@ -1,33 +1,27 @@
-﻿using System;
+﻿using ImageMagick;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
-using ImageMagick;
 
-namespace Milkshake.Models
+namespace Milkshake.Models.Interfaces
 {
-    internal class TemplateProperties
+    public interface IProperties : IMilkshake
     {
-        public string PropertyName { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
         public Layer Layer { get; set; }
-        public bool? IsText { get; set; }
+        public bool IsText { get; set; }
         public string? Color { get; set; }
         public Gravity? Orientation { get; set; }
         public string? Font { get; set; }
         public string? StrokeColor { get; set; }
         public int? StrokeWidth { get; set; }
 
-    }
-
-    internal enum Layer
-    {
-        Background = -1,
-        Base = 0,
-        Foreground = 1
+        public Guid TemplateId { get; set; }
+        public int Index { get; set; }
     }
 }
