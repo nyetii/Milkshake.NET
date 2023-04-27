@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Milkshake.Models.Interfaces
 {
-    public interface ITemplate<TProperties> : IMedia where TProperties : class, IProperties 
+    public interface ITemplate<TProperties> : IMedia where TProperties : class, IProperties
     {
         public ICollection<TProperties>? Properties { get; set; }
 

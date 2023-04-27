@@ -409,3 +409,12 @@ FodyWeavers.xsd
 /src/Kimi.Core/Migrations/20230418041947_first.cs
 /src/Kimi.Commands/Modules/Milkshake/Crud.cs
 /src/Kimi.Core/Migrations
+/src/Kimi.Services/Milkshake/InstanceHandler.cs
+/src/Kimi.Services/Helpers/AttachmentHelper.cs
+/src/Kimi.Services/CRUD/ServerCrud.cs
+/src/Kimi.Services/Models/MilkshakeInstance.cs
+/src/Kimi.Commands/Modules/Milkshake/TemplateModule.cs
+/src/Kimi.Commands/Modules/Milkshake/SourceModule.cs
+/src/Kimi.Commands/Modules/Milkshake/MilkshakeComponents.cs
+/src/Kimi.Commands/Modules/Milkshake/MetaModule.cs
+/src/Kimi.Services/Commands/Milkshake/ModalEvents.cs
