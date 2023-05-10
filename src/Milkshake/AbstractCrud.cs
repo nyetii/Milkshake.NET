@@ -11,10 +11,10 @@ namespace Milkshake
     /// <summary>
     /// Interface for the needeed CRUD functions.
     /// </summary>
-    public interface ICrud
+    public interface ICrud<in T> where T : class
     {
-        Task<object> GetAllMilkshakes<T>() where T : class, IMilkshake, new();
-        Task<object> GetAllInstances();
+        Task<object?> GetMilkshake(Guid id);
+        Task<object> GetAllMilkshakes();
 
         /// <summary>
         /// Creates a <see cref="IMilkshake"/> object and store its data somewhere.
@@ -23,8 +23,8 @@ namespace Milkshake
         /// <param name="milkshake"></param>
         /// <param name="server"></param>
         /// <returns><see cref="Task"/></returns>
-        Task CreateMilkshake<T>(T milkshake, ulong? server = null) where T : class, IMilkshake;
-        Task UpdateMilkshake<T>(Guid id) where T : class, IMilkshake, new();
+        Task CreateMilkshake(T milkshake, ulong? server = null);
+        Task UpdateMilkshake(T milkshake, Guid id);
 
         /// <summary>
         /// Deletes a <see cref="IMilkshake"/> object and any data related to it.
@@ -33,22 +33,21 @@ namespace Milkshake
         /// <param name="milkshake"></param>
         /// <param name="id"></param>
         /// <returns><see cref="Task"/></returns>
-        Task DeleteMilkshake<T>(Guid id) where T : class, IMilkshake, new();
+        Task DeleteMilkshake(Guid id);
     }
 
 
-    public abstract class AbstractCrud : ICrud
-    {
-        public abstract Task<object> GetAllMilkshakes<T>() where T : class, IMilkshake, new();
+    //public abstract class AbstractCrud<T> : ICrud<T> where T : class
+    //{
+    //    public abstract Task<object?> GetMilkshake(Guid id);
+
+    //    public abstract Task<object> GetAllMilkshakes();
+
+    //    public abstract Task CreateMilkshake(T milkshake, ulong? server = null);
+
+    //    public abstract Task UpdateMilkshake(Guid id);
 
 
-        public abstract Task CreateMilkshake<T>(T milkshake, ulong? server = null) where T : class, IMilkshake;
-
-        public abstract Task UpdateMilkshake<T>(Guid id) where T : class, IMilkshake, new();
-
-
-        public abstract Task DeleteMilkshake<T>(Guid id) where T : class, IMilkshake, new();
-
-        public abstract Task<object> GetAllInstances();
-    }
+    //    public abstract Task DeleteMilkshake(Guid id);
+    //}
 }

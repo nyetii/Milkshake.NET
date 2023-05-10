@@ -7,7 +7,7 @@ using Milkshake.Models.Interfaces;
 
 namespace Milkshake
 {
-    public class InstanceManager<T> where T : class, IInstanceBase, new()
+    public class InstanceBuilder<T> where T : class, IInstanceBase, new()
     {
         public string InstanceFolder { get; private set; } = "Milkshake";
         //public string? Vips { get; private set; }
@@ -16,24 +16,30 @@ namespace Milkshake
 
         private readonly MilkshakeService _service;
 
-        public InstanceManager(MilkshakeService service)
+        public InstanceBuilder(MilkshakeService service)
         {
             _service = service;
         }
 
-        public InstanceManager<T> CreateInstance()
+        public InstanceBuilder<T> CreateInstance()
         {
             Directory.CreateDirectory($"{_service.Options.BasePath}/{InstanceFolder}");
             return this;
         }
 
-        public InstanceManager<T> SetVipList(IReadOnlyList<string> vip)
+        public InstanceBuilder<T> WithVip(ulong user)
         {
-            _instance.Vips = string.Join(';', vip);
+            _instance.Vips = string.Join(';', user);
             return this;
         }
 
-        public InstanceManager<T> SetInstanceFolder(string? folderName = null)
+        public InstanceBuilder<T> WithVip(IEnumerable<ulong> users)
+        {
+            _instance.Vips = string.Join(';', users);
+            return this;
+        }
+
+        public InstanceBuilder<T> SetInstanceFolder(string? folderName = null)
         {
             InstanceFolder = folderName ?? _instance.ContextId.ToString();
             return this;

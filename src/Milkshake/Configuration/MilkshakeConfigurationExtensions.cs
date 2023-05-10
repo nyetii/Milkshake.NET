@@ -11,7 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Milkshake.Attributes;
+using Milkshake.Builders;
 using Milkshake.Crud;
+using Milkshake.Managers;
 using Milkshake.Models.Interfaces;
 
 namespace Milkshake.Configuration
@@ -39,7 +41,7 @@ namespace Milkshake.Configuration
         {
             services.AddOptions();
             services.AddSingleton<MilkshakeService>();
-            
+
             var provider = services.BuildServiceProvider();
 
             configure(new MilkshakeConfiguration(services, assembly, provider.GetRequiredService<MilkshakeService>()));
@@ -48,10 +50,13 @@ namespace Milkshake.Configuration
 
         public static IMilkshakeConfiguration AddInstanceManager(this IMilkshakeConfiguration milkshake)
         {
-            Type genericClass = typeof(InstanceManager<>);
+            Type genericClass = typeof(InstanceBuilder<>);
             Type attribute = InstanceAttribute.InstanceType(milkshake.Assembly);
-            Type instanceManager = genericClass.MakeGenericType(attribute);
+            Type instanceBuilder = genericClass.MakeGenericType(attribute);
 
+            Type instanceManager = typeof(InstanceManager<>).MakeGenericType(attribute);
+
+            milkshake.Services.AddScoped(instanceBuilder);
             milkshake.Services.AddScoped(instanceManager);
 
             return milkshake;
@@ -61,12 +66,72 @@ namespace Milkshake.Configuration
         {
             assembly ??= milkshake.Assembly;
 
-            Type? self = assembly.GetTypes().FirstOrDefault(assemblyType => assemblyType.IsAssignableTo(typeof(ICrud)));
+            //var a = CrudAttribute.GetType(assembly);
 
-            if (self is null)
+            //var crud = typeof(ICrud<>);
+            //var generic = crud.MakeGenericType(crud, a);
+            //var activated = Activator.CreateInstance(generic);
+
+            var types = new List<Type>();
+
+            foreach (var assemblyType in assembly.GetTypes())
+            {
+                var attribute = Attribute.GetCustomAttributes(assemblyType);
+
+                foreach (var item in attribute)
+                    if (item is HandleAttribute handle)
+                    {
+                        types.Add(handle.Type);
+                        break;
+                    }
+            }
+
+            //Type? self = assembly!.GetTypes().FirstOrDefault(assemblyType => assemblyType.IsAssignableTo(typeof(ICrud<>)));
+
+            if (types is null)
             {
                 milkshake.Milkshake.Log("No best CRUD type found.", Severity.Warning);
                 return milkshake;
+            }
+
+            foreach (var item in types)
+            {
+
+                if (item.IsAssignableTo(typeof(IMilkshake)) || item.IsAssignableTo(typeof(IInstanceBase)))
+                {
+                    var genericClass = typeof(ICrud<>);
+                    var i = genericClass.MakeGenericType(item);
+
+                    //Type? self = assembly!.GetTypes().FirstOrDefault(assemblyType => assemblyType.IsAssignableTo(i));
+
+                    Type? self = null;
+
+                    foreach (var type in assembly.GetTypes())
+                    {
+                        var attribute = Attribute.GetCustomAttributes(type);
+
+                        foreach (var subitem in attribute)
+                        {
+                            if (subitem is CrudAttribute crud)
+                            {
+                                self = type.MakeGenericType(item);
+
+                                Console.WriteLine("jfa");
+
+                                milkshake.Services.AddTransient(i, self);
+                                milkshake.HandlerNames.Add(self.ShortDisplayName());
+                                break;
+                            }
+                            
+                        }
+                    }
+                }
+                else
+                {
+                    milkshake.Milkshake.Log($"Type \"{item.ShortDisplayName()}\" is invalid.\n" +
+                                            $"Expected implementation of \"{typeof(IMilkshake).ShortDisplayName()}\".",
+                        Severity.Warning);
+                }
             }
 
             //Type genericClass = typeof(ICrud);
@@ -75,13 +140,13 @@ namespace Milkshake.Configuration
 
             //milkshake.Services.AddTransient(iMilkshakeHandler, item.self);
 
-            milkshake.Services.AddTransient(typeof(ICrud), self);
+            //milkshake.Services.AddTransient(generic, a);
             return milkshake;
         }
 
-        public static IMilkshakeConfiguration AddCrud<T>(this IMilkshakeConfiguration milkshake) where T : AbstractCrud
+        public static IMilkshakeConfiguration AddCrud<T>(this IMilkshakeConfiguration milkshake) //where T : ICrud<T>, new()
         {
-            milkshake.Services.AddTransient<ICrud, T>();
+            //milkshake.Services.AddTransient<ICrud, T>();
             return milkshake;
         }
 
