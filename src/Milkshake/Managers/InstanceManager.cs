@@ -9,7 +9,7 @@ namespace Milkshake.Managers
 {
     public class InstanceManager<T> where T : class, IInstanceBase, new()
     {
-        public T Instance;
+        public T Instance = new();
 
         private readonly MilkshakeService _service;
 

@@ -419,3 +419,8 @@ FodyWeavers.xsd
 /src/Kimi.Commands/Modules/Milkshake/MetaModule.cs
 /src/Kimi.Services/Commands/Milkshake/ModalEvents.cs
 /src/Kimi.Commands/Modules/Meta/ServerModule.cs
+/src/Kimi.Commands/Modules/Milkshake/GenerationModule.cs
+/src/Kimi.Commands/Modules/Milkshake/PropertiesModule.cs
+/src/Kimi.Services/Models/Statistics.cs
+/src/Kimi.Commands/ExceptionHandler.cs
+/src/Kimi.Services/Milkshake/PropertiesHandler.cs

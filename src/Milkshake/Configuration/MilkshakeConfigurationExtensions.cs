@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Milkshake.Attributes;
 using Milkshake.Builders;
 using Milkshake.Crud;
+using Milkshake.Generation;
 using Milkshake.Managers;
 using Milkshake.Models.Interfaces;
 
@@ -41,6 +42,9 @@ namespace Milkshake.Configuration
         {
             services.AddOptions();
             services.AddSingleton<MilkshakeService>();
+            services.AddSingleton<SourceBuilder>();
+            services.AddSingleton<GenerationQueue>();
+            services.AddTransient<ContextData>();
 
             var provider = services.BuildServiceProvider();
 

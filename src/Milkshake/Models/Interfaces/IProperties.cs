@@ -15,11 +15,11 @@ namespace Milkshake.Models.Interfaces
         public int Y { get; set; }
         public Layer Layer { get; set; }
         public bool IsText { get; set; }
-        public string? Color { get; set; }
-        public Gravity? Orientation { get; set; }
-        public string? Font { get; set; }
-        public string? StrokeColor { get; set; }
-        public int? StrokeWidth { get; set; }
+        public string Color { get; set; }
+        public Gravity Orientation { get; set; }
+        public string Font { get; set; }
+        public string StrokeColor { get; set; }
+        public int StrokeWidth { get; set; }
 
         public Guid TemplateId { get; set; }
         public int Index { get; set; }

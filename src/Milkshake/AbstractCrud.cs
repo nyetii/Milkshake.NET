@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Milkshake.Managers;
 using Milkshake.Models.Interfaces;
 
 namespace Milkshake
@@ -13,8 +14,9 @@ namespace Milkshake
     /// </summary>
     public interface ICrud<in T> where T : class
     {
+        Task<ContextData> GetContext(Guid id);
         Task<object?> GetMilkshake(Guid id);
-        Task<object> GetAllMilkshakes();
+        Task<object> GetAllMilkshakes(Guid? id = null);
 
         /// <summary>
         /// Creates a <see cref="IMilkshake"/> object and store its data somewhere.
@@ -24,7 +26,7 @@ namespace Milkshake
         /// <param name="server"></param>
         /// <returns><see cref="Task"/></returns>
         Task CreateMilkshake(T milkshake, ulong? server = null);
-        Task UpdateMilkshake(T milkshake, Guid id);
+        Task UpdateMilkshake(T milkshake, Guid id, bool save = true);
 
         /// <summary>
         /// Deletes a <see cref="IMilkshake"/> object and any data related to it.
@@ -34,6 +36,8 @@ namespace Milkshake
         /// <param name="id"></param>
         /// <returns><see cref="Task"/></returns>
         Task DeleteMilkshake(Guid id);
+
+        Task SaveAsync();
     }
 
 

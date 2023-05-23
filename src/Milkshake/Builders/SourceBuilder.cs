@@ -6,48 +6,47 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using ImageMagick;
+using Milkshake.Exceptions;
 using Milkshake.Managers;
 using Milkshake.Models;
 using Milkshake.Models.Interfaces;
+using Instance = Milkshake.Models.Instance;
 
 namespace Milkshake.Builders
 {
     public class SourceBuilder
     {
+        private readonly Source _source = new();
+
         private string _extension = "png";
         private string _url = string.Empty;
-        private string _filePath = string.Empty;
-
-        private string _name = string.Empty;
-        private string _description = string.Empty;
-        private ImageTags _tags;
-        private int _width = 0;
-        private int _height = 0;
 
         //private readonly ISource _source = new T();
 
         private readonly MilkshakeService _service;
+        
 
-        public SourceBuilder(MilkshakeService service)
+        public SourceBuilder(MilkshakeService service, ContextData context)
         {
             _service = service;
+            _source.MilkshakeContextId = context.ContextId;
         }
 
-        public SourceBuilder<T> WithName(string name)
+        public SourceBuilder WithName(string name)
         {
-            _name = name;
+            _source.Name = name;
             return this;
         }
 
-        public SourceBuilder<T> WithDescription(string description)
+        public SourceBuilder WithDescription(string? description)
         {
-            _description = description;
+            _source.Description = description ?? "No description provided.";
             return this;
         }
 
-        public SourceBuilder<T> WithTags(ImageTags tags)
+        public SourceBuilder WithTags(ImageTags tags)
         {
-            _tags = tags;
+            _source.Tags = tags;
             return this;
         }
 
@@ -56,49 +55,47 @@ namespace Milkshake.Builders
             using var image =
                 new MagickImage(_source.Path);
 
-            _width = image.Width;
-            _height = image.Height;
+            _source.Width = image.Width;
+            _source.Height = image.Height;
+
             //_source.Width = width;
             //_source.Height = height;
             //return this;
         }
 
-        public SourceBuilder<T> WithUrl(string url)
+        public SourceBuilder WithUrl(string url)
         {
             _url = url;
             _extension = _url.Split('.').Last().ToLowerInvariant();
 
-            var extensions = new[] { "png", "jpeg", "jpg" };
+            var extensions = new[] { "png", "jpeg", "jpg", "webp" };
 
             if (!extensions.Contains(_extension))
-                throw new NotSupportedException("Invalid file type.");
+                throw new InvalidMilkshakeException("Invalid file type.");
 
-            _filePath = $"{_service.Options.BasePath}/{_source.MilkshakeContextId}/Source";
+            _source.Path = _service.Options.MultipleInstances
+                ? $"{_service.Options.BasePath}/{_source.MilkshakeContextId}/source/{_source.Name}-{_source.Id}.webp"
+                : $"{_service.Options.BasePath}/source/{_source.Name}-{_source.Id}.webp";
+            
+            //_source.Path = $"{_service.Options.BasePath}/{_source.MilkshakeContextId}/source/{_source.Name}-{_source.Id}.webp";
 
-            _source.Download(url);
+            _source.Download(url, _source.Path, _service.Options.MaxDimensions);
 
             return this;
         }
 
-        public ISource Build()
+        public SourceBuilder WithStats(string creator)
         {
-            _source.Path = $"{_service.Options.BasePath}/{_source.Name}-{_source.MilkshakeContextId}.{_extension}";
-            SetDimensions();
-
-            return new Source();
+            _source.Creator = creator;
+            return this;
         }
 
-        private class Source : ISource
+        public Source Build()
         {
-            public Guid Id { get; set; }
-            public string Name { get; set; }
-            public string Description { get; set; }
-            public int Width { get; set; }
-            public int Height { get; set; }
-            public ImageTags Tags { get; set; }
-            public DateTime CreationDateTime { get; set; }
-            public string Path { get; set; }
-            public Guid MilkshakeContextId { get; set; }
+            //_source.Path = $"{_service.Options.BasePath}/{_source.Name}-{_source.MilkshakeContextId}.{_extension}";
+            SetDimensions();
+
+            return _source;
         }
     }
 }
