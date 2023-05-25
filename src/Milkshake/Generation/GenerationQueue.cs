@@ -26,7 +26,7 @@ namespace Milkshake.Generation
             //var prompt = new Generation();
 
             if (prompt.Template is null)
-                throw new InvalidMilkshakeException("The provided Template is null.");
+                throw new InvalidMilkshakeException("The provided template is null.");
 
             if (prompt.Template.Properties is null || prompt.Template.Properties.Count < 1)
                 throw new InvalidMilkshakeException("No properties for the template were found.");

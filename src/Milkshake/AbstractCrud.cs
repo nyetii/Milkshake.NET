@@ -25,7 +25,7 @@ namespace Milkshake
         /// <param name="milkshake"></param>
         /// <param name="server"></param>
         /// <returns><see cref="Task"/></returns>
-        Task CreateMilkshake(T milkshake, ulong? server = null);
+        Task CreateMilkshake(T milkshake, ulong? server = null, bool save = true);
         Task UpdateMilkshake(T milkshake, Guid id, bool save = true);
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Milkshake
         /// <param name="milkshake"></param>
         /// <param name="id"></param>
         /// <returns><see cref="Task"/></returns>
-        Task DeleteMilkshake(Guid id);
+        Task DeleteMilkshake(Guid id, bool save = true);
 
         Task SaveAsync();
     }

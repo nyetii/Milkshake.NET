@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Milkshake.Exceptions;
 using Milkshake.Models.Interfaces;
 
 namespace Milkshake.Managers
@@ -18,27 +19,22 @@ namespace Milkshake.Managers
             _service = service;
         }
 
-        public T AddVip(ulong user)
+        public T AddVip(string user, ContextData context)
         {
-            var vips = Instance.Vips?.Split(';').ToList();
-            if (vips is null)
-                throw new InvalidOperationException("Vip list is null.");
-
-            vips.Add(user.ToString());
-            Instance.Vips = string.Join(';', vips);
+            if (Permission.IsPermitted(Instance.Vips, context.Caller))
+                Instance.Vips = Permission.Add(Instance.Vips, user);
+            else
+                throw new PermissionDeniedException();
 
             return Instance;
         }
 
-        public T RemoveVip(ulong user)
+        public T RemoveVip(string user, ContextData context)
         {
-            var vips = Instance.Vips?.Split(';').ToList();
-            if (vips is null)
-                throw new InvalidOperationException("Vip list is null.");
-
-            vips.RemoveAll(id => id == user.ToString());
-
-            Instance.Vips = string.Join(';', vips);
+            if (Permission.IsPermitted(Instance.Vips, context.Caller))
+                Instance.Vips = Permission.Remove(Instance.Vips, user);
+            else
+                throw new PermissionDeniedException();
 
             return Instance;
         }

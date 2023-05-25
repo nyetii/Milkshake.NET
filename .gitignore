@@ -424,3 +424,6 @@ FodyWeavers.xsd
 /src/Kimi.Services/Models/Statistics.cs
 /src/Kimi.Commands/ExceptionHandler.cs
 /src/Kimi.Services/Milkshake/PropertiesHandler.cs
+/src/Kimi.Commands/Modules/Milkshake/ComponentsModule.cs
+/src/Kimi.Services/Helpers/DoUserCheckAttribute.cs
+/src/Kimi.Services/Commands/AdminButtons.cs
