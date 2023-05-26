@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Milkshake.Managers;
 using Milkshake.Models.Interfaces;
 
-namespace Milkshake
+namespace Milkshake.Crud
 {
     /// <summary>
     /// Interface for the needeed CRUD functions.

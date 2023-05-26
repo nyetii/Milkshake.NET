@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Milkshake.Models.Interfaces;
 
-namespace Milkshake
+namespace Milkshake.Builders
 {
     public class InstanceBuilder<T> where T : class, IInstanceBase, new()
     {
