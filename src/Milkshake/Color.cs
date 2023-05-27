@@ -11,11 +11,45 @@ using ImageMagick;
 
 namespace Milkshake
 {
+    /// <summary>
+    /// Represents a Color.
+    /// </summary>
     public struct Color
     {
-        public string Name;
-        public int Code;
+        /// <summary>
+        /// Gets the <see cref="Color"/>'s name.
+        /// </summary>
+        /// <returns>A <see cref="string"/> that is the name of <see cref="Color"/>. <br/>
+        /// If the color does not have a defined name, the value will be the formatted <see cref="string"/> of <see cref="Code"/>.</returns>
+        public string Name { get; private set; }
 
+        /// <summary>
+        /// Gets the <see cref="Color"/> Hex Code.
+        /// </summary>
+        /// <returns>A <see cref="int"/> hexadecimal value of <see cref="Color"/>.</returns>
+        public int Code { get; private set; }
+
+        /// <summary>
+        /// Tries to convert the <paramref name="input"/> to an instance of <see cref="Color"/>.
+        /// If it successfully converts, <paramref name="color"/> will be updated.
+        /// </summary>
+        /// <remarks>
+        /// The following string representations will be successfully converted: <br/>
+        /// <list type="number">
+        /// <item>
+        /// <term>#BC9A7F</term>
+        /// <description>The (#) is optional</description>
+        /// </item>
+        /// <item>
+        /// <term>Snow</term>
+        /// <description>The closest string on <see cref="MagickColors"/> will be selected</description>
+        /// </item>
+        /// </list>
+        /// If none is a valid Hex Code or is close enough to any <see cref="MagickColors"/> string, the value is (Unknown #000000).
+        /// </remarks>
+        /// <param name="input"></param>
+        /// <param name="color"></param>
+        /// <returns><see langword="true"/> if the Color is successfully parsed; otherwise, <see langword="false"/>.</returns>
         public static bool TryParse(string input, out Color color)
         {
             color = new Color();
@@ -35,7 +69,7 @@ namespace Milkshake
                 color.Code = int.Parse(pair.Value[1..], NumberStyles.HexNumber);
                 return true;
             }
-
+            
             color.Name = "Unknown";
             color.Code = 0x000000;
             return false;
@@ -81,7 +115,7 @@ namespace Milkshake
                 return true;
             }
 
-            color = new KeyValuePair<string, string>("Black", MagickColors["Black"]);
+            color = new KeyValuePair<string, string>("Unknown", MagickColors["Black"]);
             return false;
             //if (result.Score < 60)
             //{
@@ -91,11 +125,18 @@ namespace Milkshake
             //}
         }
 
+        /// <summary>
+        /// Returns a formatted string of the <see cref="Color"/> Hex Code.
+        /// </summary>
+        /// <returns>The <see cref="Color"/> Hex Code, such as "#BC9A7F".</returns>
         public override string ToString()
         {
             return "#" + Code.ToString("X").ToUpper();
         }
 
+        /// <summary>
+        /// Dictionary with name and hexadecimal code of each standard ImageMagick color.
+        /// </summary>
         private static readonly Dictionary<string, string> MagickColors = new()
         {
             {"None", "#00000000"},

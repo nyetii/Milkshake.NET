@@ -28,10 +28,5 @@ namespace Milkshake
         {
             Options = options.Value;
         }
-
-        public void Initialize()
-        {
-            Log(Version.ToString());
-        }
     }
 }
