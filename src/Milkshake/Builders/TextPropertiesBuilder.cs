@@ -8,7 +8,7 @@ using Milkshake.Models;
 
 namespace Milkshake.Builders
 {
-    public class PropertiesTextBuilder
+    public class TextPropertiesBuilder
     {
         public string? Color { get; set; }
         public Gravity? Orientation { get; set; }

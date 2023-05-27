@@ -294,7 +294,7 @@ namespace Milkshake.Configuration
 
         //    foreach (var type in a)
         //    {
-        //        if (!type.IsAssignableTo(typeof(IProperties))) continue;
+        //        if (!type.IsAssignableTo(typeof(ITopping))) continue;
         //        properties = type;
         //        break;
         //    }

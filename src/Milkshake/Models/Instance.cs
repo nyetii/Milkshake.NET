@@ -5,8 +5,11 @@ using Milkshake.Models.Interfaces;
 
 namespace Milkshake.Models
 {
-    
-    public class Instance : IInstance<Template, Source, TemplateProperties>
+    /// <summary>
+    /// Represents an Instance of the Milkshake library.
+    /// Each Instance contains its own scope where the Milkshake objects are enclosed in.
+    /// </summary>
+    public class Instance : IInstance<Template, Source, Topping>
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Milkshake.Models.Interfaces
 {
-    public interface IProperties : IMilkshake
+    public interface ITopping : IMilkshake
     {
         public int X { get; set; }
         public int Y { get; set; }

@@ -6,7 +6,10 @@ using ArgumentOutOfRangeException = System.ArgumentOutOfRangeException;
 
 namespace Milkshake.Models
 {
-    public class TemplateProperties : IProperties
+    /// <summary>
+    /// Represents each set of properties on <see cref="Models.Template"/> that a <see cref="Source"/> must meet on generation.
+    /// </summary>
+    public class Topping : ITopping
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

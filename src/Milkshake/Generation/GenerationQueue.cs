@@ -32,10 +32,10 @@ namespace Milkshake.Generation
             if (prompt.Template is null)
                 throw new InvalidMilkshakeException("The provided template is null.");
 
-            if (prompt.Template.Properties is null || prompt.Template.Properties.Count < 1)
-                throw new InvalidMilkshakeException("No properties for the template were found.");
+            if (prompt.Template.Toppings is null || prompt.Template.Toppings.Count < 1)
+                throw new InvalidMilkshakeException("No toppings for the template were found.");
 
-            var properties = prompt.Template.Properties.ToArray();
+            var toppings = prompt.Template.Toppings.ToArray();
             
 
             _queue.Enqueue(prompt);
@@ -60,36 +60,36 @@ namespace Milkshake.Generation
 
             using var underCanvas = new MagickImage(width: prompt.Template.Width, height: prompt.Template.Height, color: new MagickColor(MagickColors.Transparent));
 
-            var properties = PopulateSources(prompt);
+            var milkshakes = PopulateSources(prompt);
             var layers = new List<MagickImage>();
 
-            foreach (var property in properties)
+            foreach (var milkshake in milkshakes)
             {
                 MagickReadSettings settings;
-                if(!property.properties.IsText)
+                if(!milkshake.topping.IsText)
                 {
                     settings = new MagickReadSettings()
                     {
-                        Width = property.properties.Width,
-                        Height = property.properties.Height,
+                        Width = milkshake.topping.Width,
+                        Height = milkshake.topping.Height,
                         BackgroundColor = MagickColors.Transparent
                     };
 
-                    var source = new MagickImage(property.source.Path, settings);
+                    var source = new MagickImage(milkshake.source.Path, settings);
 
-                    switch (property.properties.Layer)
+                    switch (milkshake.topping.Layer)
                     {
                         case Layer.Background:
-                            source.Distort(DistortMethod.Resize, property.properties.Width, property.properties.Height);
-                            underCanvas.Composite(source, property.properties.X, property.properties.Y, CompositeOperator.Over);
+                            source.Distort(DistortMethod.Resize, milkshake.topping.Width, milkshake.topping.Height);
+                            underCanvas.Composite(source, milkshake.topping.X, milkshake.topping.Y, CompositeOperator.Over);
                             break;
                         case Layer.Base:
-                            source.Distort(DistortMethod.Resize, property.properties.Width, property.properties.Height);
-                            canvas.Composite(source, property.properties.X, property.properties.Y, CompositeOperator.Over);
+                            source.Distort(DistortMethod.Resize, milkshake.topping.Width, milkshake.topping.Height);
+                            canvas.Composite(source, milkshake.topping.X, milkshake.topping.Y, CompositeOperator.Over);
                             break;
                         case Layer.Foreground:
-                            source.Distort(DistortMethod.Resize, property.properties.Width, property.properties.Height);
-                            overCanvas.Composite(source, property.properties.X, property.properties.Y, CompositeOperator.Over);
+                            source.Distort(DistortMethod.Resize, milkshake.topping.Width, milkshake.topping.Height);
+                            overCanvas.Composite(source, milkshake.topping.X, milkshake.topping.Y, CompositeOperator.Over);
                             break;
                         default:
                             break;
@@ -102,23 +102,23 @@ namespace Milkshake.Generation
 
                     settings = new MagickReadSettings()
                     {
-                        Font = property.properties.Font,
-                        FillColor = new MagickColor(property.properties.Color),
-                        TextGravity = property.properties.Orientation,
-                        Width = property.properties.Width,
-                        Height = property.properties.Height,
+                        Font = milkshake.topping.Font,
+                        FillColor = new MagickColor(milkshake.topping.Color),
+                        TextGravity = milkshake.topping.Orientation,
+                        Width = milkshake.topping.Width,
+                        Height = milkshake.topping.Height,
                         BackgroundColor = MagickColors.Transparent
                     };
 
-                    if (property.properties.StrokeWidth > 0)
+                    if (milkshake.topping.StrokeWidth > 0)
                     {
-                        settings.StrokeColor = new MagickColor(property.properties.StrokeColor);
-                        settings.StrokeWidth = property.properties.StrokeWidth;
+                        settings.StrokeColor = new MagickColor(milkshake.topping.StrokeColor);
+                        settings.StrokeWidth = milkshake.topping.StrokeWidth;
                         settings.StrokeAntiAlias = true;
                     }
 
-                    using var source = new MagickImage($"caption: {property.source.Name}", settings);
-                    canvas.Composite(source, property.properties.X, property.properties.Y, CompositeOperator.Over);
+                    using var source = new MagickImage($"caption: {milkshake.source.Name}", settings);
+                    canvas.Composite(source, milkshake.topping.X, milkshake.topping.Y, CompositeOperator.Over);
                     source.Dispose();
                     
                 }
@@ -158,29 +158,29 @@ namespace Milkshake.Generation
         }
 
         /// <summary>
-        /// Populates each <see cref="TemplateProperties"/> of a <see cref="Template"/> with a <see cref="Source"/>.
+        /// Populates each <see cref="Topping"/> of a <see cref="Template"/> with a <see cref="Source"/>.
         /// </summary>
         /// <param name="prompt"></param>
         /// <returns><see cref="List{T}"/></returns>
-        private List<(Source source, TemplateProperties properties)> PopulateSources(Generation prompt)
+        private List<(Source source, Topping topping)> PopulateSources(Generation prompt)
         {
-            var properties = prompt.Template.Properties.ToArray();
+            var toppings = prompt.Template.Toppings.ToArray();
             var sources = prompt.Sources.ToArray();
             
 
-            var populatedSources = new List<(Source source, TemplateProperties properties)>();
+            var populatedMilkshakes = new List<(Source source, Topping topping)>();
             var duplicate = new List<string>();
 
-            for (int i = 0; i < properties.Length && i < sources.Length; i++)
+            for (int i = 0; i < toppings.Length && i < sources.Length; i++)
             {
-                if (!duplicate.Any(x => x.Equals(properties[i].Name)))
+                if (!duplicate.Any(x => x.Equals(toppings[i].Name)))
                 {
-                    var propertyGroup = properties.Where(x => x.Name == properties[i].Name).ToArray();
+                    var propertyGroup = toppings.Where(x => x.Name == toppings[i].Name).ToArray();
 
                     if (propertyGroup.Length > 1)
                         duplicate.Add(propertyGroup!.FirstOrDefault()!.Name);
 
-                    var filteredSources = sources.Where(x => x.Tags.HasFlag(properties[i].Tags)).ToArray();
+                    var filteredSources = sources.Where(x => x.Tags.HasFlag(toppings[i].Tags)).ToArray();
 
                     if (filteredSources.Length is 0)
                     {
@@ -192,12 +192,12 @@ namespace Milkshake.Generation
                     foreach(var item in propertyGroup)
                     {
                         prompt.Properties.Add((item.Name, filteredSources[src]));
-                        populatedSources.Add((filteredSources[src], item));
+                        populatedMilkshakes.Add((filteredSources[src], item));
                     }
                 }
             }
 
-            return populatedSources;
+            return populatedMilkshakes;
         }
     }
 }

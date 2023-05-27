@@ -9,6 +9,9 @@ using Milkshake.Models.Interfaces;
 
 namespace Milkshake.Models
 {
+    /// <summary>
+    /// Represents the image that will be randomly selected and its metadata used on a <see cref="Topping"/>.
+    /// </summary>
     public class Source : ISource, IStats
     {
         [Key]

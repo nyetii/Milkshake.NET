@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Milkshake.Models
 {
+    /// <summary>
+    /// Represents the possible composition of tags for <see cref="Source"/> and <see cref="Topping"/> Milkshakes.
+    /// </summary>
     [Flags]
     public enum ImageTags
     {

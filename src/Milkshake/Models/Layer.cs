@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Milkshake.Models
 {
+    /// <summary>
+    /// Represents which layer of the generated image a Milkshake should be.
+    /// </summary>
     public enum Layer
     {
         Background = -1,

@@ -4,7 +4,10 @@ using Milkshake.Models.Interfaces;
 
 namespace Milkshake.Models
 {
-    public class Template : ITemplate<TemplateProperties>, IStats
+    /// <summary>
+    /// Represents the image that will serve as a base for the generated Milkshake.
+    /// </summary>
+    public class Template : ITemplate<Topping>, IStats
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -19,7 +22,7 @@ namespace Milkshake.Models
         public int Width { get; set; }
         public int Height { get; set; }
         public ImageTags Tags { get; set; } = ImageTags.Any;
-        public ICollection<TemplateProperties>? Properties { get; set; } = new List<TemplateProperties>();
+        public ICollection<Topping>? Toppings { get; set; } = new List<Topping>();
 
         public Guid MilkshakeContextId { get; set; }
         public Instance Milkshake { get; set; } = null!;

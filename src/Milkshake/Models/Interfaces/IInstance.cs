@@ -6,10 +6,10 @@ public interface IInstanceBase
     public string? Vips { get; set; }
 }
 
-public interface IInstance<TTemplate, TSource, TProperties> : IInstanceBase
-    where TTemplate : class, ITemplate<TProperties>
+public interface IInstance<TTemplate, TSource, TTopping> : IInstanceBase
+    where TTemplate : class, ITemplate<TTopping>
     where TSource : class, ISource
-    where TProperties : class, IProperties
+    where TTopping : class, ITopping
 {
     public ICollection<TTemplate>? Template { get; set; }
     public ICollection<TSource>? Source { get; set; }
