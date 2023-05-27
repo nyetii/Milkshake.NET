@@ -21,8 +21,6 @@ namespace Milkshake.Builders
         private string _extension = "png";
         private string _url = string.Empty;
 
-        //private readonly ISource _source = new T();
-
         private readonly MilkshakeService _service;
         
 
@@ -57,10 +55,6 @@ namespace Milkshake.Builders
 
             _source.Width = image.Width;
             _source.Height = image.Height;
-
-            //_source.Width = width;
-            //_source.Height = height;
-            //return this;
         }
 
         public SourceBuilder WithUrl(string url)
@@ -77,7 +71,6 @@ namespace Milkshake.Builders
                 ? $"{_service.Options.BasePath}/{_source.MilkshakeContextId}/source/{_source.Name}-{_source.Id}.webp"
                 : $"{_service.Options.BasePath}/source/{_source.Name}-{_source.Id}.webp";
             
-            //_source.Path = $"{_service.Options.BasePath}/{_source.MilkshakeContextId}/source/{_source.Name}-{_source.Id}.webp";
 
             _source.Download(url, _source.Path, _service.Options.MaxDimensions);
 
@@ -92,7 +85,6 @@ namespace Milkshake.Builders
 
         public Source Build()
         {
-            //_source.Path = $"{_service.Options.BasePath}/{_source.Name}-{_source.MilkshakeContextId}.{_extension}";
             SetDimensions();
 
             return _source;

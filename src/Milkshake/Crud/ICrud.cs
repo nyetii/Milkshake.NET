@@ -39,19 +39,4 @@ namespace Milkshake.Crud
 
         Task SaveAsync();
     }
-
-
-    //public abstract class AbstractCrud<T> : ICrud<T> where T : class
-    //{
-    //    public abstract Task<object?> GetMilkshake(Guid id);
-
-    //    public abstract Task<object> GetAllMilkshakes();
-
-    //    public abstract Task CreateMilkshake(T milkshake, ulong? server = null);
-
-    //    public abstract Task UpdateMilkshake(Guid id);
-
-
-    //    public abstract Task DeleteMilkshake(Guid id);
-    //}
 }

@@ -23,7 +23,6 @@ namespace Milkshake.Generation
 
         public void Enqueue(Generation prompt)
         {
-            //var prompt = new Generation();
 
             if (prompt.Template is null)
                 throw new InvalidMilkshakeException("The provided template is null.");
@@ -48,10 +47,8 @@ namespace Milkshake.Generation
             
             
             using var overCanvas = new MagickImage(width: prompt.Template.Width, height: prompt.Template.Height, color: new MagickColor(MagickColors.Transparent));
-            //overCanvas.Resize(canvas.Width, canvas.Height);
 
             using var underCanvas = new MagickImage(width: prompt.Template.Width, height: prompt.Template.Height, color: new MagickColor(MagickColors.Transparent));
-            //underCanvas.Resize(canvas.Width, canvas.Height);
 
             var properties = PopulateSources(prompt);
             var layers = new List<MagickImage>();
@@ -121,10 +118,6 @@ namespace Milkshake.Generation
 
             using var image = new MagickImageCollection();
 
-            //image.Composite(underCanvas);
-            //image.Composite(canvas, CompositeOperator.Over);
-            //image.Composite(overCanvas, CompositeOperator.Over);
-
             image.Add(underCanvas);
             image.Add(canvas);
             image.Add(overCanvas);
@@ -155,8 +148,7 @@ namespace Milkshake.Generation
         {
             var properties = prompt.Template.Properties.ToArray();
             var sources = prompt.Sources.ToArray();
-
-            //prompt.Sources = new List<Source>();
+            
 
             var populatedSources = new List<(string name, Source source, TemplateProperties properties)>();
             var duplicate = new List<string>();
@@ -179,18 +171,13 @@ namespace Milkshake.Generation
 
                     var src = new Random().Next(0, filteredSources.Length);
 
-                    //populatedSources.Add((filteredSources[src], properties[i]));
-
                     foreach(var item in propertyGroup)
                     {
                         prompt.Properties.Add((item.Name, filteredSources[src]));
                         populatedSources.Add((item.Name, filteredSources[src], item));
                     }
-                    //prompt.Sources.Add(filteredSources[src]);
                 }
             }
-
-            
 
             return populatedSources;
         }

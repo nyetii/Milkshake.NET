@@ -10,7 +10,6 @@ namespace Milkshake.Builders
     public class InstanceBuilder<T> where T : class, IInstanceBase, new()
     {
         public string InstanceFolder { get; private set; } = "Milkshake";
-        //public string? Vips { get; private set; }
 
         private readonly T _instance = new T();
 
@@ -51,7 +50,6 @@ namespace Milkshake.Builders
 
         public T Build()
         {
-            //_instance.Vips = Vips;
             return _instance;
         }
     }

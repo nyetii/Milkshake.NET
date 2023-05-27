@@ -21,7 +21,6 @@ namespace Milkshake
             Severity = severity;
             Exception = exception;
         }
-
     }
 
     public enum Severity

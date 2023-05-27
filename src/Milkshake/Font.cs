@@ -32,5 +32,7 @@ namespace Milkshake
             font.DisplayName = displayName;
             return true;
         }
+
+        public override string ToString() => DisplayName;
     }
 }

@@ -21,9 +21,7 @@ namespace Milkshake.Builders
 
         private string _extension = "png";
         private string _url = string.Empty;
-
-        //private readonly ISource _template = new T();
-
+        
         private readonly MilkshakeService _service;
 
 
@@ -61,10 +59,6 @@ namespace Milkshake.Builders
 
             _template.Width = image.Width;
             _template.Height = image.Height;
-
-            //_template.Width = width;
-            //_template.Height = height;
-            //return this;
         }
 
         public TemplateBuilder WithUrl(string url)
@@ -80,11 +74,10 @@ namespace Milkshake.Builders
             _template.Path = _service.Options.MultipleInstances
                 ? $"{_service.Options.BasePath}/{_template.MilkshakeContextId}/template/{_template.Name}-{_template.Id}.webp"
                 : $"{_service.Options.BasePath}/template/{_template.Name}-{_template.Id}.webp";
-
-            //_template.Path = $"{_service.Options.BasePath}/{_template.MilkshakeContextId}/source/{_template.Name}-{_template.Id}.webp";
+            
 
             _template.Download(url, _template.Path, _service.Options.MaxDimensions);
-
+            
             return this;
         }
 
@@ -96,7 +89,6 @@ namespace Milkshake.Builders
 
         public Template Build()
         {
-            //_template.Path = $"{_service.Options.BasePath}/{_template.Name}-{_template.MilkshakeContextId}.{_extension}";
             SetDimensions();
 
             return _template;

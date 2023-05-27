@@ -16,15 +16,14 @@ namespace Milkshake.Managers
     public static class ImageManager
     {
         private static HttpClient? _httpClient;
-
-        // TODO - Remove the useless params and make internal
-        public static void Download<T>(this T value, string url, string path, (int width, int height) limit) where T : class, IMedia
+        
+        internal static void Download<T>(this T value, string url, string path, (int width, int height) limit) where T : class, IMedia
         {
-            var stream = HandleDownload(value, url, path).Result;
+            var stream = HandleDownload(url).Result;
             ToWebp(stream, limit, path).Wait();
         }
 
-        private static async Task<MemoryStream> HandleDownload<T>(T milkshake, string url, string path) where T : class, IMedia
+        private static async Task<MemoryStream> HandleDownload(string url) 
         {
             var extension = url.Split('.').Last().ToLowerInvariant();
 
@@ -45,7 +44,6 @@ namespace Milkshake.Managers
             attachment.EnsureSuccessStatusCode();
 
             var memoryStream = new MemoryStream();
-            //await using var filestream = new FileStream($"{path}", FileMode.CreateNew);
 
             await attachment.Content.CopyToAsync(memoryStream);
 
@@ -72,14 +70,10 @@ namespace Milkshake.Managers
 
             stream.Position = 0;
             await image.WriteAsync(stream);
-
-            //stream.Position = 0;
-            //var optimizer = new ImageOptimizer();
-            //optimizer.LosslessCompress(stream);
+            
 
             stream.Position = 0;
             using var output = new MagickImage(stream);
-            //output.Format = MagickFormat.WebP;
             stream.Position = 0;
             await using var filestream = new FileStream($"{path}", FileMode.CreateNew);
             await output.WriteAsync(filestream);
