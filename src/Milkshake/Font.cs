@@ -25,7 +25,7 @@ namespace Milkshake
                 font.DisplayName = font.Name;
                 return false;
             }
-
+            
             var displayName = new string(result.Value.Replace('-', ' '));
 
             font.Name = result.Value;
