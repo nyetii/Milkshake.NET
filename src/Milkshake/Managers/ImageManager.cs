@@ -81,6 +81,13 @@ namespace Milkshake.Managers
             await stream.DisposeAsync();
         }
 
+        /// <summary>
+        /// Renames the Milkshake file based on the <paramref name="name"/> parameter.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <param name="name"></param>
+        /// <returns>The new file name in order to be update <see cref="IMedia.Path"/>.</returns>
         public static string RenameFile<T>(this T value, string name) where T : class, IMedia
         {
             var filename = Path.GetFileNameWithoutExtension(value.Path);
@@ -95,11 +102,23 @@ namespace Milkshake.Managers
             return path;
         }
 
+        /// <summary>
+        /// Returns the Milkshake file name.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <returns>The Milkshake file name.</returns>
         public static string GetFileName<T>(this T value) where T : class, IMedia
         {
             return Path.GetFileName(value.Path);
         }
 
+        /// <summary>
+        /// Returns the Milkshake filtered file name.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <returns>A file name without special characters for URLs.</returns>
         public static string GetFilteredFileName<T>(this T value) where T : class, IMedia
         {
             var filename = Path.GetFileName(value.Path);
@@ -110,6 +129,11 @@ namespace Milkshake.Managers
             return filename;
         }
 
+        /// <summary>
+        /// Deletes the Milkshake file.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
         public static void Delete<T>(this T value) where T : class, IMedia
         {
             File.Delete(value.Path);

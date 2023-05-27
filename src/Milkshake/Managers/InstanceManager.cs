@@ -19,6 +19,13 @@ namespace Milkshake.Managers
             _service = service;
         }
 
+        /// <summary>
+        /// Adds a new VIP user on the specified Instance.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="context"></param>
+        /// <returns>A new implementation of <see cref="IInstanceBase"/> including the updated content.</returns>
+        /// <exception cref="PermissionDeniedException"></exception>
         public T AddVip(string user, ContextData context)
         {
             if (Permission.IsPermitted(Instance.Vips, context.Caller))
@@ -29,6 +36,13 @@ namespace Milkshake.Managers
             return Instance;
         }
 
+        /// <summary>
+        /// Removes a VIP user on the specified Instance.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="context"></param>
+        /// <returns>A new implementation of <see cref="IInstanceBase"/> including the updated content.</returns>
+        /// <exception cref="PermissionDeniedException"></exception>
         public T RemoveVip(string user, ContextData context)
         {
             if (Permission.IsPermitted(Instance.Vips, context.Caller))

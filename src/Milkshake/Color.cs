@@ -26,7 +26,6 @@ namespace Milkshake
             {
                 color.Code = int.Parse(value, NumberStyles.HexNumber);
                 color.Name = color.ToString();
-                Console.WriteLine(color.Name);
                 return true;
             }
             

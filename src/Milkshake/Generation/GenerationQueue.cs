@@ -21,6 +21,11 @@ namespace Milkshake.Generation
             _service = service;
         }
 
+        /// <summary>
+        /// The client's <see cref="Generation"/> object is passed to the library and is added to the queue.
+        /// </summary>
+        /// <param name="prompt"></param>
+        /// <exception cref="InvalidMilkshakeException"></exception>
         public void Enqueue(Generation prompt)
         {
 
@@ -36,6 +41,11 @@ namespace Milkshake.Generation
             _queue.Enqueue(prompt);
         }
 
+        /// <summary>
+        /// Generates the next Milkshake on the queue.
+        /// </summary>
+        /// <remarks>The Generated data is sent to <seealso cref="ImageGenerated"/> event.</remarks>
+        /// <returns><see cref="Task"/></returns>
         public async Task Generate()
         {
             if (_queue.Count is 0) 
@@ -133,6 +143,9 @@ namespace Milkshake.Generation
             await OnImageGenerated(prompt, new GeneratedEventArgs() {Id = prompt.Id, FilePath = stream.Name});
         }
 
+        /// <summary>
+        /// Fires when a Milkshake generation is ready.
+        /// </summary>
         public event GeneratedHandler? ImageGenerated;
 
         public delegate Task GeneratedHandler(object sender, GeneratedEventArgs args);
@@ -144,13 +157,18 @@ namespace Milkshake.Generation
             await Task.CompletedTask;
         }
 
-        private List<(string name, Source source, TemplateProperties properties)> PopulateSources(Generation prompt)
+        /// <summary>
+        /// Populates each <see cref="TemplateProperties"/> of a <see cref="Template"/> with a <see cref="Source"/>.
+        /// </summary>
+        /// <param name="prompt"></param>
+        /// <returns><see cref="List{T}"/></returns>
+        private List<(Source source, TemplateProperties properties)> PopulateSources(Generation prompt)
         {
             var properties = prompt.Template.Properties.ToArray();
             var sources = prompt.Sources.ToArray();
             
 
-            var populatedSources = new List<(string name, Source source, TemplateProperties properties)>();
+            var populatedSources = new List<(Source source, TemplateProperties properties)>();
             var duplicate = new List<string>();
 
             for (int i = 0; i < properties.Length && i < sources.Length; i++)
@@ -174,7 +192,7 @@ namespace Milkshake.Generation
                     foreach(var item in propertyGroup)
                     {
                         prompt.Properties.Add((item.Name, filteredSources[src]));
-                        populatedSources.Add((item.Name, filteredSources[src], item));
+                        populatedSources.Add((filteredSources[src], item));
                     }
                 }
             }

@@ -49,6 +49,10 @@ namespace Milkshake.Configuration
             var provider = services.BuildServiceProvider();
 
             configure(new MilkshakeConfiguration(services, assembly, provider.GetRequiredService<MilkshakeService>()));
+
+            var ms = provider.GetRequiredService<MilkshakeService>();
+            ms.Log($"Milkshake v{ms.Version.ToString(3)}");
+
             return services;
         }
 
@@ -119,8 +123,7 @@ namespace Milkshake.Configuration
                             if (subitem is CrudAttribute crud)
                             {
                                 self = type.MakeGenericType(item);
-
-                                Console.WriteLine("jfa");
+                                
 
                                 milkshake.Services.AddTransient(i, self);
                                 milkshake.HandlerNames.Add(self.ShortDisplayName());
@@ -239,7 +242,18 @@ namespace Milkshake.Configuration
                 }
             }
 
-            milkshake.Milkshake.Log(string.Join(',', milkshake.HandlerNames));
+            var names = new List<string>(milkshake.HandlerNames.Count);
+            names.Add("");
+            foreach (var item in milkshake.HandlerNames)
+            {
+                var name = "        " + item;
+                names.Add(name);
+            }
+            names.Add("");
+            names.Insert(0, "Handler implementations found:");
+
+
+            milkshake.Milkshake.Log(string.Join('\n', names), Severity.Debug);
 
             if (types.Count != 0 && types.Count - invalidTypes.Count != 0) 
                 return milkshake;

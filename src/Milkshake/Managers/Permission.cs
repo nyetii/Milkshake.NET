@@ -10,6 +10,12 @@ namespace Milkshake.Managers
 {
     public class Permission
     {
+        /// <summary>
+        /// Checks if the specified user (<paramref name="id"/>) is included in the VIP <paramref name="list"/>.
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="id"></param>
+        /// <returns><see langword="true"/> if the user is included; otherwise, <see langword="false"/>.</returns>
         public static bool IsPermitted(string? list, string id)
         {
             var vips = Serialize(list);
