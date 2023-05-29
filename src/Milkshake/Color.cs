@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -14,7 +16,7 @@ namespace Milkshake
     /// <summary>
     /// Represents a Color.
     /// </summary>
-    public struct Color
+    public struct Color : IEquatable<Color>
     {
         /// <summary>
         /// Gets the <see cref="Color"/>'s name.
@@ -135,9 +137,9 @@ namespace Milkshake
         }
 
         /// <summary>
-        /// Dictionary with name and hexadecimal code of each standard ImageMagick color.
+        /// Gets a Dictionary with name and hexadecimal code of each standard ImageMagick color.
         /// </summary>
-        private static readonly Dictionary<string, string> MagickColors = new()
+        private static readonly Dictionary<string, string> MagickColorsDict = new()
         {
             {"None", "#00000000"},
             {"Transparent", "#00000000"},
@@ -284,5 +286,53 @@ namespace Milkshake
             {"YellowGreen", "#9ACD32"}
         };
 
+        /// <summary>
+        /// Gets a Dictionary with name and hexadecimal code of each standard ImageMagick color.
+        /// </summary>
+        public static ReadOnlyDictionary<string, string> MagickColors { get; } = new(MagickColorsDict);
+
+        public override bool Equals(object? obj)
+        {
+            return base.Equals(obj);
+        }
+
+        public bool Equals(Color other)
+        {
+            return string.Equals(Name, other.Name, StringComparison.InvariantCultureIgnoreCase) && Code == other.Code;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = new HashCode();
+            hashCode.Add(Name, StringComparer.InvariantCultureIgnoreCase);
+            hashCode.Add(Code);
+            return hashCode.ToHashCode();
+        }
+
+        public static bool operator ==(Color left, Color right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Color left, Color right)
+        {
+            return !left.Equals(right);
+        }
+
+        public static bool operator ==(Color left, string right)
+        {
+            if (TryParse(right, out var color))
+                return left.Equals(color);
+
+            return false;
+        }
+
+        public static bool operator !=(Color left, string right)
+        {
+            if(TryParse(right, out var color))
+                return !left.Equals(color);
+
+            return true;
+        }
     }
 }

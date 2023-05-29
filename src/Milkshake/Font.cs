@@ -1,12 +1,15 @@
-﻿using FuzzySharp;
+﻿using System.Collections.Immutable;
+using System.Collections.ObjectModel;
+using FuzzySharp;
 using ImageMagick;
+// ReSharper disable SuspiciousTypeConversion.Global
 
 namespace Milkshake
 {
     /// <summary>
     /// Represents a font that can be easily recognized by Magick.NET.
     /// </summary>
-    public struct Font
+    public struct Font : IEquatable<Font>
     {
         /// <summary>
         /// Gets the <see cref="Font"/> name.
@@ -50,9 +53,58 @@ namespace Milkshake
         }
 
         /// <summary>
-        /// Returns <see cref="Font.DisplayName"/>.
+        /// Returns <see cref="DisplayName"/>.
         /// </summary>
         /// <returns>A <see cref="string"/> that is the name of <see cref="Font"/> with whitespaces instead of hyphens.</returns>
         public override string ToString() => DisplayName;
+
+        /// <summary>
+        /// Gets a List containing all available fonts recognized by ImageMagick.
+        /// </summary>
+        public static IReadOnlyList<string> AvailableFonts { get; } = new List<string>(MagickNET.FontNames);
+
+        public override bool Equals(object? obj)
+        {
+            return obj switch
+            {
+                null => false,
+                string fontName => string.Equals(Name, fontName, StringComparison.InvariantCultureIgnoreCase),
+                _ => false
+            };
+        }
+
+        public bool Equals(Font other)
+        {
+            return string.Equals(Name, other.Name, StringComparison.InvariantCultureIgnoreCase)
+                && string.Equals(DisplayName, other.DisplayName, StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = new HashCode();
+            hashCode.Add(Name, StringComparer.InvariantCultureIgnoreCase);
+            hashCode.Add(DisplayName, StringComparer.InvariantCultureIgnoreCase);
+            return hashCode.ToHashCode();
+        }
+        
+        public static bool operator ==(Font left, Font right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Font left, Font right)
+        {
+            return !left.Equals(right);
+        }
+
+        public static bool operator ==(Font left, string right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Font left, string right)
+        {
+            return !left.Equals(right);
+        }
     }
 }
