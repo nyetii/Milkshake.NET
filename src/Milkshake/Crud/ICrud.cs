@@ -12,7 +12,7 @@ namespace Milkshake.Crud
     /// <summary>
     /// Interface for the needeed CRUD functions.
     /// </summary>
-    public interface ICrud<in T> where T : class
+    public interface ICrud<T> where T : class, IMilkshakeBase
     {
         /// <summary>
         /// 
@@ -22,18 +22,18 @@ namespace Milkshake.Crud
         Task<ContextData> GetContext(Guid id);
 
         /// <summary>
-        /// Returns a boxed Milkshake object.
+        /// Returns a Milkshake object.
         /// </summary>
         /// <param name="id"></param>
-        /// <returns><see cref="Task"/> of <see cref="object"/></returns>
-        Task<object?> GetMilkshake(Guid id);
+        /// <returns><seealso cref="IMilkshake"/> or <see cref="IInstanceBase"/> implementation.</returns>
+        Task<T?> GetMilkshake(Guid id);
 
         /// <summary>
-        /// Returns a boxed array of every specified Milkshake .
+        /// Returns an array of every specified Milkshake.
         /// </summary>
         /// <param name="id"></param>
-        /// <returns><see cref="Task"/> of <see cref="object"/></returns>
-        Task<object> GetAllMilkshakes(Guid? id = null);
+        /// <returns>An array of a <see cref="IMilkshake"/> or <see cref="IInstanceBase"/>.</returns>
+        Task<T[]> GetAllMilkshakes(Guid? id = null);
 
         /// <summary>
         /// Creates a <see cref="IMilkshake"/> object and store its data somewhere.

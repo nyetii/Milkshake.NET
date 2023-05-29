@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Milkshake.Models.Interfaces
 {
-    public interface IMilkshake
+    public interface IMilkshake : IMilkshakeBase
     {
         Guid Id { get; set; }
         string Name { get; set; }

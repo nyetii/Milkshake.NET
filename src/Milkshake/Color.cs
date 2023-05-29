@@ -56,8 +56,6 @@ namespace Milkshake
         {
             color = new Color();
 
-            //TryFind(input, out var a);
-
             if (TryMatch(input, out string value))
             {
                 color.Code = int.Parse(value, NumberStyles.HexNumber);
@@ -93,23 +91,7 @@ namespace Milkshake
 
         private static bool TryFind(string input, out KeyValuePair<string, string> color)
         {
-            //var a = typeof(MagickColors).GetFields(BindingFlags.Public | BindingFlags.Static)
-            //    .Where(x => x.FieldType == typeof(MagickColor))
-            //    .ToDictionary(k => k.Name, 
-            //        v => (MagickColor?)v.GetValue(null));
-
-            //var t = typeof(MagickColors);
-
-            //var fields = t.GetMembers(BindingFlags.Public | BindingFlags.Static)
-            //    .OfType<PropertyInfo>().Where(x => x.PropertyType == typeof(MagickColor));
-
-            //var dict = fields.ToDictionary(k => k.Name,
-            //    v => (MagickColor?)v.GetValue(null));
-            
-
             var result = Process.ExtractOne(input, MagickColors.Keys);
-
-            //dict.TryGetValue(result, out var value);
 
             if(result.Score > 60)
             {
@@ -119,12 +101,6 @@ namespace Milkshake
 
             color = new KeyValuePair<string, string>("Unknown", MagickColors["Black"]);
             return false;
-            //if (result.Score < 60)
-            //{
-            //    font.Name = "Arial";
-            //    font.DisplayName = font.Name;
-            //    return false;
-            //}
         }
 
         /// <summary>
