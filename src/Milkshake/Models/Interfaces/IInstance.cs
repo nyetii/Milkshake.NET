@@ -1,6 +1,6 @@
 ﻿namespace Milkshake.Models.Interfaces;
 
-public interface IInstanceBase : IMilkshakeBase
+public interface IInstanceBase : ICommonBase
 {
     public Guid ContextId { get; set; }
     public string? Vips { get; set; }

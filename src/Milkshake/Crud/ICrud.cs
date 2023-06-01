@@ -12,7 +12,7 @@ namespace Milkshake.Crud
     /// <summary>
     /// Interface for the needeed CRUD functions.
     /// </summary>
-    public interface ICrud<T> where T : class, IMilkshakeBase
+    public interface ICrud<T> where T : class, ICommonBase
     {
         /// <summary>
         /// 

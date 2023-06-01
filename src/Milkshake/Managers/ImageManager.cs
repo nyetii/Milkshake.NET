@@ -60,7 +60,8 @@ namespace Milkshake.Managers
                 var resize = new MagickGeometry();
                 resize.Width = limit.width;
                 resize.Height = limit.height;
-                resize.FillArea = true;
+                //resize.FillArea = true;
+
                 resize.IgnoreAspectRatio = false;
 
                 image.AdaptiveResize(resize);

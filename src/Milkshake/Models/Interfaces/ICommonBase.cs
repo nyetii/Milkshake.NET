@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Milkshake.Models.Interfaces
 {
-    public interface IMilkshakeBase
+    /// <summary>
+    /// Common interface for all Milkshake and Instance objects.
+    /// </summary>
+    public interface ICommonBase
     {
     }
 }

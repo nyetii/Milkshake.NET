@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ImageMagick;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using Microsoft.Extensions.DependencyInjection;
 using Milkshake.Exceptions;
 using Milkshake.Models;
 
@@ -77,6 +78,45 @@ namespace Milkshake.Generation
 
                     var source = new MagickImage(milkshake.source.Path, settings);
 
+                    var filters = Enum.GetValues(typeof(Filter));
+                    
+                    if(milkshake.topping.Filter != 0)
+                        foreach (Filter filter in filters)
+                        {
+                            if (milkshake.topping.Filter.HasFlag(filter))
+                                switch (filter)
+                                {
+                                    case Filter.Grayscale:
+                                        source.Grayscale();
+                                        break;
+                                    case Filter.Vignette:
+                                        source.Vignette();
+                                        break;
+                                    case Filter.Blur:
+                                        source.Blur(Channels.All);
+                                        break;
+                                    case Filter.Sepia:
+                                        source.SepiaTone();
+                                        break;
+                                    case Filter.Charcoal:
+                                        source.Charcoal();
+                                        break;
+                                    case Filter.Emboss:
+                                        source.Emboss();
+                                        break;
+                                    case Filter.OilPaint:
+                                        source.OilPaint();
+                                        break;
+                                    case Filter.Negate:
+                                        source.Negate(Channels.CMYK);
+                                        break;
+                                    case Filter.None:
+                                    default:
+                                        break;
+
+                                }
+                        }
+                    
                     switch (milkshake.topping.Layer)
                     {
                         case Layer.Background:
@@ -94,6 +134,7 @@ namespace Milkshake.Generation
                         default:
                             break;
                     }
+
                     
                     source.Dispose();
                 }

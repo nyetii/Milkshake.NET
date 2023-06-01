@@ -25,6 +25,7 @@ namespace Milkshake.Models
         public int Width { get; set; }
         public int Height { get; set; }
         public Layer Layer { get; set; }
+        public Filter Filter { get; set; }
         public bool IsText { get; set; } = false;
         public string Color { get; set; } = "#000000";
         public Gravity Orientation { get; set; } = Gravity.West;
