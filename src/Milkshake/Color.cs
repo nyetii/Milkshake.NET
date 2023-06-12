@@ -81,7 +81,7 @@ namespace Milkshake
 
             if (match.Success)
             {
-                value = match.Value[1..];
+                value = match.Value[0] is '#' ? match.Value[1..] : match.Value;
                 return true;
             }
 
@@ -109,7 +109,12 @@ namespace Milkshake
         /// <returns>The <see cref="Color"/> Hex Code, such as "#BC9A7F".</returns>
         public override string ToString()
         {
-            return "#" + Code.ToString("X").ToUpper();
+            var code = Code.ToString("X").ToUpper();
+
+            if (Code is 0)
+                code = "000000";
+
+            return "#" + code;
         }
 
         /// <summary>

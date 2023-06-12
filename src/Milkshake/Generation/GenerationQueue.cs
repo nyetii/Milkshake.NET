@@ -203,25 +203,25 @@ namespace Milkshake.Generation
         /// </summary>
         /// <param name="prompt"></param>
         /// <returns><see cref="List{T}"/></returns>
-        private List<(Source source, Topping topping)> PopulateSources(Generation prompt)
+        private static List<(Source source, Topping topping)> PopulateSources(Generation prompt)
         {
-            var toppings = prompt.Template.Toppings.ToArray();
+            var toppings = prompt.Template!.Toppings!.ToArray();
             var sources = prompt.Sources.ToArray();
             
 
             var populatedMilkshakes = new List<(Source source, Topping topping)>();
             var duplicate = new List<string>();
 
-            for (int i = 0; i < toppings.Length && i < sources.Length; i++)
+            foreach (var topping in toppings)
             {
-                if (!duplicate.Any(x => x.Equals(toppings[i].Name)))
+                if (!duplicate.Any(x => x.Equals(topping.Name)))
                 {
-                    var propertyGroup = toppings.Where(x => x.Name == toppings[i].Name).ToArray();
+                    var propertyGroup = toppings.Where(x => x.Name == topping.Name).ToArray();
 
                     if (propertyGroup.Length > 1)
                         duplicate.Add(propertyGroup!.FirstOrDefault()!.Name);
 
-                    var filteredSources = sources.Where(x => x.Tags.HasFlag(toppings[i].Tags)).ToArray();
+                    var filteredSources = sources.Where(x => x.Tags.HasFlag(topping.Tags)).ToArray();
 
                     if (filteredSources.Length is 0)
                     {
