@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using Microsoft.Extensions.DependencyInjection;
+using Milkshake.Instances;
 
 namespace Milkshake.Configuration;
 

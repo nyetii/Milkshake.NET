@@ -1,7 +1,10 @@
-﻿using System.Runtime.InteropServices.Marshalling;
+﻿using System.Reflection.Metadata;
+using System.Reflection;
+using System.Runtime.InteropServices.Marshalling;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Milkshake.Configuration;
+using Milkshake.Instances;
 
 namespace Milkshake;
 
@@ -18,6 +21,13 @@ public class MilkshakeService
         _logger = logger;
         _generation = generation;
         Options = options.Value;
+    }
+
+    public MilkshakeInstance CreateInstance<T>(T caller) where T : class
+    {
+        var attribute = InstanceAttribute.GetValue(caller);
+        
+        return new MilkshakeInstance(this, _generation, attribute.Name);
     }
 
     public MilkshakeInstance CreateInstance(string instanceName)

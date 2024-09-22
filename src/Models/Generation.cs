@@ -1,4 +1,5 @@
-﻿using Milkshake.Models.Interfaces;
+﻿using Milkshake.Instances;
+using Milkshake.Models.Interfaces;
 
 namespace Milkshake.Models;
 

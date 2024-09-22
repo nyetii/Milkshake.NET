@@ -1,4 +1,6 @@
-﻿namespace Milkshake.Models.Interfaces;
+﻿using Milkshake.Instances;
+
+namespace Milkshake.Models.Interfaces;
 
 public interface IGeneration
 {
