@@ -12,6 +12,7 @@ public static class MilkshakeConfigurationExtensions
 
     public static IServiceCollection AddMilkshake(this IServiceCollection services, MilkshakeOptions options)
     {
+        // TODO: Check Options, its value is not persisting, apparently.
         services.AddOptions<MilkshakeOptions>();
         services.AddSingleton<IMilkshakeService, MilkshakeService>();
         services.AddSingleton<IGenerationService, GenerationService>();
