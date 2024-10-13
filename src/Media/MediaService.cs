@@ -1,8 +1,9 @@
-﻿using Milkshake.Models.Interfaces;
+﻿using Milkshake.Media.Models;
 
-namespace Milkshake;
+namespace Milkshake.Media;
 
-public class MediaService
+// TODO: Remove the Load, Save, Delete, etc. methods from the IMedia interface and implement them here instead
+public class MediaService : IMediaService
 {
     private readonly MilkshakeService _service;
 
@@ -15,7 +16,7 @@ public class MediaService
     {
         if (_service.Options.SerializeMilkshakes)
         {
-            
+
         }
 
         throw new NotImplementedException();

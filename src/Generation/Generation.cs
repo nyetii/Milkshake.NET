@@ -1,7 +1,6 @@
 ﻿using Milkshake.Instances;
-using Milkshake.Models.Interfaces;
 
-namespace Milkshake.Models;
+namespace Milkshake.Generation;
 
 internal class Generation : IGeneration
 {

@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Drawing;
-using Milkshake.Models.Interfaces;
 
-namespace Milkshake.Models;
+namespace Milkshake.Media.Models;
 
 public class Milkshake : IMilkshake
 {

@@ -5,20 +5,21 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Milkshake.Configuration;
 using Milkshake.Instances;
+using Milkshake.Generation;
 
 namespace Milkshake;
 
-public class MilkshakeService
+public class MilkshakeService : IMilkshakeService
 {
     internal Dictionary<string, MilkshakeInstance> Instances { get; init; } = [];
 
-    public readonly MilkshakeOptions Options;
+    public MilkshakeOptions Options { get; init; }
 
-    private readonly GenerationService _generation;
+    private readonly IGenerationService _generation;
 
     private readonly ILogger<MilkshakeService> _logger;
 
-    public MilkshakeService(IOptions<MilkshakeOptions> options, ILogger<MilkshakeService> logger, GenerationService generation)
+    public MilkshakeService(IOptions<MilkshakeOptions> options, ILogger<MilkshakeService> logger, IGenerationService generation)
     {
         _logger = logger;
         _generation = generation;

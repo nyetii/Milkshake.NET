@@ -1,21 +1,21 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Reflection;
-using Milkshake.Models;
-using Milkshake.Models.Interfaces;
+using Milkshake.Generation;
+using Milkshake.Media.Models;
 
 namespace Milkshake.Instances;
 
-public class MilkshakeInstance : IInstance
+public class MilkshakeInstance : IMilkshakeInstance
 {
-    private readonly MilkshakeService _service;
+    private readonly IMilkshakeService _service;
 
     [Required(AllowEmptyStrings = false)]
-    public string InstanceName { get; internal set; } = "default";
+    public string InstanceName { get; set; } = "default";
 
     public int TemplateCount => GetMilkshakeCount<Template>();
     public int SourceCount => GetMilkshakeCount<Source>();
 
-    public int GenerationCount { get; internal set; }
+    public int GenerationCount { get; set; }
 
     //public MilkshakeInstance(MilkshakeService service, GenerationService generation)
     //{
@@ -30,7 +30,7 @@ public class MilkshakeInstance : IInstance
     //    InstanceName = instanceName;
     //}
 
-    public MilkshakeInstance(MilkshakeService service)
+    public MilkshakeInstance(IMilkshakeService service)
     {
         _service = service;
     }
@@ -40,5 +40,5 @@ public class MilkshakeInstance : IInstance
         return Directory.EnumerateFiles($"{_service.Options.BasePath}/{typeof(T).Name.ToLower()}").Count();
     }
 
-    public IGeneration CreateGeneration() => new Generation(this);
+    public IGeneration CreateGeneration() => new Generation.Generation(this);
 }

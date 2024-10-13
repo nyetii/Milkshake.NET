@@ -3,12 +3,11 @@ using System.Security.AccessControl;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Milkshake.Configuration;
-using Milkshake.Models;
-using Milkshake.Models.Interfaces;
+using Milkshake.Media.Models;
 
-namespace Milkshake;
+namespace Milkshake.Generation;
 
-public class GenerationService
+public class GenerationService : IGenerationService
 {
     private readonly ILogger<GenerationService> _logger;
 

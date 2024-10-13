@@ -1,16 +1,17 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Milkshake.Generation;
 
 namespace Milkshake.Instances;
 
 public abstract class InstanceBase
 {
-    protected InstanceBase(MilkshakeService service, GenerationService generation, IServiceProvider serviceProvider)
+    protected InstanceBase(IMilkshakeService service, IGenerationService generation, IServiceProvider serviceProvider)
     {
         var scope = serviceProvider.CreateScope();
         Service = service;
         Generation = generation;
 
-        Instance = scope.ServiceProvider.GetRequiredService<MilkshakeInstance>();
+        Instance = scope.ServiceProvider.GetRequiredService<IMilkshakeInstance>();
 
         if (Service.Options.MultipleInstances && Instance.InstanceName is "default")
         {
@@ -27,7 +28,7 @@ public abstract class InstanceBase
         }
     }
 
-    protected InstanceBase(MilkshakeService service, GenerationService generation, IServiceProvider serviceProvider, string instanceName)
+    protected InstanceBase(IMilkshakeService service, IGenerationService generation, IServiceProvider serviceProvider, string instanceName)
         : this(service, generation, serviceProvider)
     {
         InstanceName = instanceName;
@@ -35,7 +36,7 @@ public abstract class InstanceBase
 
     internal string InstanceName { get; } = "default";
 
-    protected readonly MilkshakeService Service;
-    protected readonly MilkshakeInstance Instance;
-    protected readonly GenerationService Generation;
+    protected readonly IMilkshakeService Service;
+    protected readonly IMilkshakeInstance Instance;
+    protected readonly IGenerationService Generation;
 }
