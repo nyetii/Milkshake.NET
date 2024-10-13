@@ -18,7 +18,7 @@ public class InstanceAttribute : Attribute
 
     }
 
-    internal static InstanceAttribute GetValue<T>(T caller) where T : class
+    internal static InstanceAttribute? GetValue<T>(T caller) where T : class
     {
         var type = caller.GetType();
 
@@ -46,6 +46,6 @@ public class InstanceAttribute : Attribute
             && !string.IsNullOrWhiteSpace(attr.Name))
             return attr;
 
-        return new InstanceAttribute("default");
+        return null;
     }
 }

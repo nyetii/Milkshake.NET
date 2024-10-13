@@ -4,7 +4,7 @@ using Milkshake.Models.Interfaces;
 
 namespace Milkshake.Models;
 
-public class Template : IMilkshake, IMedia
+public class Template : IMilkshake, IMedia<Template>
 {
     public Guid Id { get; init; }
     public DateTime CreatedAt { get; init; }
@@ -18,6 +18,16 @@ public class Template : IMilkshake, IMedia
 
     [Required(AllowEmptyStrings = false)]
     public string FileName { get; set; } = null!;
+
+    public Task<Template> LoadAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Template> LoadAsync(Guid guid)
+    {
+        throw new NotImplementedException();
+    }
 
     public Task<bool> SaveAsync(MemoryStream stream)
     {

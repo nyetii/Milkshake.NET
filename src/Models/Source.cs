@@ -4,7 +4,7 @@ using Milkshake.Models.Interfaces;
 
 namespace Milkshake.Models;
 
-public class Source : IMilkshake
+public class Source : IMilkshake, IMedia<Source>
 {
     public Guid Id { get; init; }
 
@@ -16,5 +16,30 @@ public class Source : IMilkshake
     public Size Size { get; init; }
 
     [Required(AllowEmptyStrings = false)]
-    internal string FileName { get; set; } = null!;
+    public string FileName { get; set; } = null!;
+
+    public Task<Source> LoadAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Source> LoadAsync(Guid guid)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> SaveAsync(MemoryStream stream)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> RenameAsync(string newName)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> DeleteAsync()
+    {
+        throw new NotImplementedException();
+    }
 }

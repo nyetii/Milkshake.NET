@@ -10,6 +10,8 @@ namespace Milkshake;
 
 public class MilkshakeService
 {
+    internal Dictionary<string, MilkshakeInstance> Instances { get; init; } = [];
+
     public readonly MilkshakeOptions Options;
 
     private readonly GenerationService _generation;
@@ -23,40 +25,48 @@ public class MilkshakeService
         Options = options.Value;
     }
 
-    public MilkshakeInstance CreateInstance<T>(T caller) where T : class
-    {
-        var attribute = InstanceAttribute.GetValue(caller);
-        
-        return new MilkshakeInstance(this, _generation, attribute.Name);
-    }
+    //public MilkshakeInstance CreateInstance<T>(T caller) where T : class
+    //{
+    //    var attribute = InstanceAttribute.GetValue(caller);
 
-    public MilkshakeInstance CreateInstance(string instanceName)
-    {
-        var instance = new MilkshakeInstance(this, _generation)
-        {
-            InstanceName = instanceName
-        };
-        return instance;
-    }
+    //    if (Options.MultipleInstances) 
+    //        return new MilkshakeInstance(this, _generation, attribute.Name);
 
-    public MilkshakeInstance? GetInstance(string instanceName)
-    {
-        if (!Options.MultipleInstances)
-        {
-            _logger.LogWarning("Multiple Instances are disabled, " +
-                               "{instanceName} cannot be accessed and the default instance will be opened instead.",
-                instanceName);
+    //    _logger.LogWarning("Multiple Instances are disabled, " +
+    //                       "{Name} cannot be accessed and the default instance will be opened instead.",
+    //        attribute.Name);
 
-            instanceName = "default";
-        }
+    //    return new MilkshakeInstance(this, _generation);
 
-        //if (!Directory.Exists($"{Options.BasePath}/{instanceName}"))
-        //    return null;
+    //}
 
-        var instance = new MilkshakeInstance(this, _generation)
-        {
-            InstanceName = instanceName
-        };
-        return instance;
-    }
+    //public MilkshakeInstance CreateInstance(string instanceName)
+    //{
+    //    var instance = new MilkshakeInstance(this, _generation)
+    //    {
+    //        InstanceName = instanceName
+    //    };
+    //    return instance;
+    //}
+
+    //public MilkshakeInstance? GetInstance(string instanceName)
+    //{
+    //    if (!Options.MultipleInstances)
+    //    {
+    //        _logger.LogWarning("Multiple Instances are disabled, " +
+    //                           "{instanceName} cannot be accessed and the default instance will be opened instead.",
+    //            instanceName);
+
+    //        instanceName = "default";
+    //    }
+
+    //    //if (!Directory.Exists($"{Options.BasePath}/{instanceName}"))
+    //    //    return null;
+
+    //    var instance = new MilkshakeInstance(this, _generation)
+    //    {
+    //        InstanceName = instanceName
+    //    };
+    //    return instance;
+    //}
 }

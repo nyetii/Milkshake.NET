@@ -32,8 +32,6 @@ public class GenerationService
         _promptQueue.Enqueue(prompt);
         _taskQueue.Enqueue(GenerateAsync);
 
-        //QueueLength++;
-
         Task.Run(async () => await ProcessQueueAsync(prompt)).ContinueWith(x =>
         {
             if (x is { IsFaulted: true, Exception: not null })
@@ -48,10 +46,7 @@ public class GenerationService
 
     private async Task GenerateAsync()
     {
-        _logger.LogInformation("LENGTH IS {QueueLength}", QueueLength);
         var prompt = _promptQueue.Dequeue();
-        _logger.LogInformation("LENGTH NOW IS {QueueLength}", QueueLength);
-        //QueueLength--;
 
         // Generation logic here.
 
@@ -88,7 +83,6 @@ public class GenerationService
                 lock (_promptQueue)
                 {
                     _promptQueue.Dequeue();
-                    //QueueLength--;
                 }
 
                 return;
