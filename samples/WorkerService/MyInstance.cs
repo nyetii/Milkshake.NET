@@ -6,8 +6,8 @@ namespace WorkerService;
 public class MyInstance : InstanceBase
 {
     private ILogger<MyInstance> _logger;
-    public MyInstance(IMilkshakeService service, IGenerationService generation, IServiceProvider serviceProvider, ILogger<MyInstance> logger)
-        : base(service, generation, serviceProvider)
+    public MyInstance(IServiceProvider serviceProvider, ILogger<MyInstance> logger)
+        : base(serviceProvider)
     {
         _logger = logger;
     }
@@ -25,7 +25,7 @@ public class MyInstance : InstanceBase
         //    }
         //    await Task.Delay(1000, stoppingToken);
         //}
-
+        
         var test = await Media.LoadAsync<Source>();
 
         var gen = Instance.CreateGeneration();

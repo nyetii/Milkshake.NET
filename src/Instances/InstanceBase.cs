@@ -5,11 +5,11 @@ namespace Milkshake;
 
 public abstract class InstanceBase
 {
-    protected InstanceBase(IMilkshakeService service, IGenerationService generation, IServiceProvider serviceProvider)
+    protected InstanceBase(IServiceProvider serviceProvider)
     {
         var scope = serviceProvider.CreateScope();
-        Service = service;
-        Generation = generation;
+        Service = scope.ServiceProvider.GetRequiredService<IMilkshakeService>();
+        Generation = scope.ServiceProvider.GetRequiredService<IGenerationService>();
 
         Instance = scope.ServiceProvider.GetRequiredService<IMilkshakeInstance>();
         Media = scope.ServiceProvider.GetRequiredService<IMediaService>();
@@ -31,8 +31,8 @@ public abstract class InstanceBase
         Instance.Initialize();
     }
 
-    protected InstanceBase(IMilkshakeService service, IGenerationService generation, IServiceProvider serviceProvider, string instanceName)
-        : this(service, generation, serviceProvider)
+    protected InstanceBase(IServiceProvider serviceProvider, string instanceName)
+        : this(serviceProvider)
     {
         InstanceName = instanceName;
     }
