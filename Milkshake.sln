@@ -9,6 +9,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B82B5182
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Milkshake", "src\Milkshake.csproj", "{A18F5BCF-51B5-465C-8E65-B12D57CDCFFD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{18EF12A0-310C-4CA3-BFAE-4886FDD52A74}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkerService", "samples\WorkerService\WorkerService.csproj", "{75A639B2-4C08-4451-9DAB-B08E04630E3E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,12 +23,17 @@ Global
 		{A18F5BCF-51B5-465C-8E65-B12D57CDCFFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A18F5BCF-51B5-465C-8E65-B12D57CDCFFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A18F5BCF-51B5-465C-8E65-B12D57CDCFFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75A639B2-4C08-4451-9DAB-B08E04630E3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75A639B2-4C08-4451-9DAB-B08E04630E3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75A639B2-4C08-4451-9DAB-B08E04630E3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75A639B2-4C08-4451-9DAB-B08E04630E3E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A18F5BCF-51B5-465C-8E65-B12D57CDCFFD} = {67290E40-4D5B-47D7-8EA2-24FE946D0458}
+		{75A639B2-4C08-4451-9DAB-B08E04630E3E} = {18EF12A0-310C-4CA3-BFAE-4886FDD52A74}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {67799881-EE90-4AEB-BCAC-7C3D16F3F3EB}

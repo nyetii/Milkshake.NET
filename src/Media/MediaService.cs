@@ -49,7 +49,7 @@ public class MediaService : IMediaService
 
     public async Task<T> LoadAsync<T>() where T : class, IMilkshake, IMedia, new()
     {
-        var files = new DirectoryInfo(_service.GetDirectory<T>(_instance.InstanceName))
+        var files = new DirectoryInfo(_service.GetDirectory<T>(_instance.Name))
             .GetFiles()
             .Where(x => x.Extension is not ".json")
             .ToArray();
@@ -77,7 +77,7 @@ public class MediaService : IMediaService
     // This one assumes the milkshake has been fetched by a database or something, so it doesn't load from the dictionary.
     public async Task<T> LoadAsync<T>(T milkshake) where T : class, IMilkshake, IMedia
     {
-        var fileInfo = new FileInfo(_service.GetDirectory<T>(_instance.InstanceName, milkshake.FileName));
+        var fileInfo = new FileInfo(_service.GetDirectory<T>(_instance.Name, milkshake.FileName));
 
         milkshake.Stream = new MemoryStream();
 

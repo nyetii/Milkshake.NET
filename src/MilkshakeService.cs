@@ -49,7 +49,7 @@ public class MilkshakeService : IMilkshakeService
     //{
     //    var instance = new MilkshakeInstance(this, _generation)
     //    {
-    //        InstanceName = instanceName
+    //        Name = instanceName
     //    };
     //    return instance;
     //}
@@ -70,7 +70,7 @@ public class MilkshakeService : IMilkshakeService
 
     //    var instance = new MilkshakeInstance(this, _generation)
     //    {
-    //        InstanceName = instanceName
+    //        Name = instanceName
     //    };
     //    return instance;
     //}

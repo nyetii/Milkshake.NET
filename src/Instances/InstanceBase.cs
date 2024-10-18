@@ -16,16 +16,16 @@ public abstract class InstanceBase
         Instance = scope.ServiceProvider.GetRequiredService<IMilkshakeInstance>();
         Media = scope.ServiceProvider.GetRequiredService<IMediaService>();
 
-        if (Service.Options.MultipleInstances && Instance.InstanceName is "default")
+        if (Service.Options.MultipleInstances && Instance.Name is "default")
         {
             var attribute = InstanceAttribute.GetValue(this);
 
             if(attribute is not null)
                 InstanceName = attribute.Name;
 
-            Instance.InstanceName = attribute?.Name ?? InstanceName;
+            Instance.Name = attribute?.Name ?? InstanceName;
         }
-        else if (Instance.InstanceName != InstanceName)
+        else if (Instance.Name != InstanceName)
         {
             throw new Exception("Instance cannot be accessed.");
         }

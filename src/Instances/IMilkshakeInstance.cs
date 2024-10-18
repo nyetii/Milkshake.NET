@@ -6,7 +6,7 @@ namespace Milkshake.Instances;
 
 public interface IMilkshakeInstance
 {
-    public string InstanceName { get; internal set; }
+    public string Name { get; internal set; }
 
     public string BaseDirectory { get; }
 

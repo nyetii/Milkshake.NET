@@ -13,11 +13,11 @@ public class MilkshakeInstance : IMilkshakeInstance
 
     private readonly IMilkshakeService _service;
 
-    // TODO: Rename to Name, because InstanceName is fugly.
+    // TODO: Rename to Name, because Name is fugly.
     [Required(AllowEmptyStrings = false)]
-    public string InstanceName { get; set; } = "default";
+    public string Name { get; set; } = "default";
 
-    public string BaseDirectory => _service.GetDirectory(InstanceName);
+    public string BaseDirectory => _service.GetDirectory(Name);
 
     public int TemplateCount => GetMilkshakeCount<Template>();
     public int SourceCount => GetMilkshakeCount<Source>();
@@ -34,7 +34,7 @@ public class MilkshakeInstance : IMilkshakeInstance
     //{
     //    _service = service;
     //    Generation = generation;
-    //    InstanceName = instanceName;
+    //    Name = instanceName;
     //}
 
     private readonly Lazy<Dictionary<Guid, Source>> _sources;
@@ -51,15 +51,19 @@ public class MilkshakeInstance : IMilkshakeInstance
     public void Initialize()
     {
         VerifyDirectories();
+        _logger.LogDebug("Initialized instance {instanceName}", Name);
     }
 
     // TODO: Add a check if the serialized files are enabled, case they're not, probably return an empty Dictionary.
     // That's for database handling, in that case the developer would opt the best way to handle it.
     private Dictionary<Guid, T> LoadMetadata<T>() where T : class, IMilkshake
     {
-        _logger.LogDebug("Loading {name}s of {instanceName}", typeof(T).Name, InstanceName);
+        if (!_service.Options.SerializeMilkshakes)
+            return [];
 
-        var directory = _service.GetDirectory<Source>(InstanceName, "metadata.json");
+        _logger.LogDebug("Loading {name}s from {instanceName}", typeof(T).Name, Name);
+
+        var directory = _service.GetDirectory<Source>(Name, "metadata.json");
 
         var json = JsonSerializer.Deserialize<Dictionary<Guid, T>>(directory);
 
@@ -71,12 +75,12 @@ public class MilkshakeInstance : IMilkshakeInstance
 
     private void VerifyDirectories()
     {
-        _logger.LogDebug("Verifying directories of {instanceName}", InstanceName);
+        _logger.LogDebug("Verifying directories of {instanceName}", Name);
         
         var baseDirectory = new DirectoryInfo(BaseDirectory);
 
         if (baseDirectory is null)
-            throw new Exception($"Could not find the directory of the instance \"{InstanceName}\".");
+            throw new Exception($"Could not find the directory of the instance \"{Name}\".");
 
         if (!baseDirectory.Exists)
             baseDirectory.Create();
@@ -94,7 +98,9 @@ public class MilkshakeInstance : IMilkshakeInstance
 
         foreach (var subDirectory in subDirectories)
         {
-            // TODO: Maybe a check if the milkshakes can be Serialized or not.
+            if (!_service.Options.SerializeMilkshakes)
+                break;
+
             if (subDirectory.Name is not ("source" or "template" or "generation")
                 || subDirectory.GetFiles("metadata.json", SearchOption.TopDirectoryOnly).Length is not 0) 
                 continue;
@@ -105,13 +111,11 @@ public class MilkshakeInstance : IMilkshakeInstance
             _logger.LogDebug("Created metadata.json of {name}", subDirectory.Name);
         }
 
-        _logger.LogDebug("The directories of {instanceName} are good to go", InstanceName);
+        _logger.LogDebug("The directories of {instanceName} are good to go", Name);
     }
 
     private int GetMilkshakeCount<T>() where T : class, IMilkshake, IMedia
-    {
-        return Directory.EnumerateFiles($"{BaseDirectory}/{typeof(T).Name.ToLower()}").Count();
-    }
+        => Directory.EnumerateFiles($"{BaseDirectory}/{typeof(T).Name.ToLower()}").Count();
 
     public IGeneration CreateGeneration() => new Generation.Generation(this);
 }
