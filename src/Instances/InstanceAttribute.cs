@@ -1,7 +1,6 @@
-﻿using System.Reflection.Metadata;
-using System.Reflection;
+﻿using System.Reflection;
 
-namespace Milkshake.Instances;
+namespace Milkshake;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Field | AttributeTargets.Property)]
 public class InstanceAttribute : Attribute

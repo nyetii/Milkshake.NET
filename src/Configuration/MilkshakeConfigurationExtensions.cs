@@ -1,8 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Milkshake.Generation;
-using Milkshake.Instances;
 using Milkshake.Media;
 
 namespace Milkshake.Configuration;

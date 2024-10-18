@@ -1,7 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Drawing;
+﻿using System.Drawing;
 
-namespace Milkshake.Media.Models;
+namespace Milkshake.Media;
 
 public class Source : Media, IMilkshake
 {

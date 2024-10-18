@@ -1,4 +1,4 @@
-﻿namespace Milkshake.Generation;
+﻿namespace Milkshake;
 
 public interface IGenerationService
 {

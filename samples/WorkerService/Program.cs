@@ -1,5 +1,4 @@
 using Milkshake.Configuration;
-using WorkerService1;
 
 namespace WorkerService;
 

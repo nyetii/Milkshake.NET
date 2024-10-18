@@ -4,8 +4,6 @@ using System.Runtime.InteropServices.Marshalling;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Milkshake.Configuration;
-using Milkshake.Instances;
-using Milkshake.Generation;
 
 namespace Milkshake;
 

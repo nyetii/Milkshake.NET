@@ -1,9 +1,7 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using Microsoft.Extensions.DependencyInjection;
-using Milkshake.Generation;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Milkshake.Media;
 
-namespace Milkshake.Instances;
+namespace Milkshake;
 
 public abstract class InstanceBase
 {

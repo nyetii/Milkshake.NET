@@ -1,6 +1,4 @@
 ﻿using System.Linq.Expressions;
-using Milkshake.Instances;
-using Milkshake.Media.Models;
 
 namespace Milkshake.Media;
 

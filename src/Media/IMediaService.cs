@@ -1,6 +1,4 @@
-﻿using Milkshake.Media.Models;
-
-namespace Milkshake.Media;
+﻿namespace Milkshake.Media;
 
 public interface IMediaService
 {

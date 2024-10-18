@@ -1,6 +1,4 @@
-﻿using Milkshake.Instances;
-
-namespace Milkshake.Generation;
+﻿namespace Milkshake;
 
 internal class Generation : IGeneration
 {

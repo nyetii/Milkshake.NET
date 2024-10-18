@@ -1,14 +1,12 @@
 ﻿using Milkshake;
-using Milkshake.Generation;
-using Milkshake.Instances;
-using Milkshake.Media.Models;
+using Milkshake.Media;
 
-namespace WorkerService1;
+namespace WorkerService;
 
 public class MyInstance : InstanceBase
 {
     private ILogger<MyInstance> _logger;
-    public MyInstance(IMilkshakeService service, IGenerationService generation, IServiceProvider serviceProvider, ILogger<MyInstance> logger) 
+    public MyInstance(IMilkshakeService service, IGenerationService generation, IServiceProvider serviceProvider, ILogger<MyInstance> logger)
         : base(service, generation, serviceProvider)
     {
         _logger = logger;
@@ -38,7 +36,7 @@ public class MyInstance : InstanceBase
         {
             _logger.LogInformation("First Ready from {instanceName}!", generation.Instance.Name);
         };
-        
+
         gen2.Ready += generation =>
         {
             _logger.LogInformation("Second Ready from {instanceName}!", generation.Instance.Name);

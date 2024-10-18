@@ -1,4 +1,4 @@
-﻿namespace Milkshake.Media.Models;
+﻿namespace Milkshake.Media;
 
 public abstract class Media : IMedia, IDisposable, IAsyncDisposable
 {

@@ -1,11 +1,9 @@
 ﻿using System.Collections.Concurrent;
-using System.Security.AccessControl;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Milkshake.Configuration;
-using Milkshake.Media.Models;
 
-namespace Milkshake.Generation;
+namespace Milkshake;
 
 public class GenerationService : IGenerationService
 {

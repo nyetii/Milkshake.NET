@@ -1,8 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Milkshake.Generation;
-using Milkshake.Media.Models;
+﻿using Milkshake.Media;
 
-namespace Milkshake.Instances;
+namespace Milkshake;
 
 public interface IMilkshakeInstance
 {

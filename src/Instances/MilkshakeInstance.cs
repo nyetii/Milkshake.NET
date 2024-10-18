@@ -2,10 +2,9 @@
 using System.Reflection;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
-using Milkshake.Generation;
-using Milkshake.Media.Models;
+using Milkshake.Media;
 
-namespace Milkshake.Instances;
+namespace Milkshake;
 
 public class MilkshakeInstance : IMilkshakeInstance
 {
@@ -117,5 +116,5 @@ public class MilkshakeInstance : IMilkshakeInstance
     private int GetMilkshakeCount<T>() where T : class, IMilkshake, IMedia
         => Directory.EnumerateFiles($"{BaseDirectory}/{typeof(T).Name.ToLower()}").Count();
 
-    public IGeneration CreateGeneration() => new Generation.Generation(this);
+    public IGeneration CreateGeneration() => new Generation(this);
 }
