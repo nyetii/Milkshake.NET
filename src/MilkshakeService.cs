@@ -26,6 +26,10 @@ public class MilkshakeService : IMilkshakeService
         Options = options.Value;
     }
 
+    public string GetDirectory(string instanceName) => Path.Combine(Options.BasePath, instanceName);
+    public string GetDirectory<T>() => Path.Combine(Options.BasePath, typeof(T).Name.ToLower());
+    public string GetDirectory<T>(string instanceName, string fileName = "") => Path.Combine(Options.BasePath, instanceName, typeof(T).Name.ToLower(), fileName);
+
     //public MilkshakeInstance CreateInstance<T>(T caller) where T : class
     //{
     //    var attribute = InstanceAttribute.GetValue(caller);

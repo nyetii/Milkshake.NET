@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Security.Cryptography.X509Certificates;
+using Microsoft.Extensions.DependencyInjection;
 using Milkshake.Generation;
+using Milkshake.Media;
 
 namespace Milkshake.Instances;
 
@@ -12,6 +14,7 @@ public abstract class InstanceBase
         Generation = generation;
 
         Instance = scope.ServiceProvider.GetRequiredService<IMilkshakeInstance>();
+        Media = scope.ServiceProvider.GetRequiredService<IMediaService>();
 
         if (Service.Options.MultipleInstances && Instance.InstanceName is "default")
         {
@@ -26,6 +29,8 @@ public abstract class InstanceBase
         {
             throw new Exception("Instance cannot be accessed.");
         }
+
+        Instance.Initialize();
     }
 
     protected InstanceBase(IMilkshakeService service, IGenerationService generation, IServiceProvider serviceProvider, string instanceName)
@@ -38,5 +43,6 @@ public abstract class InstanceBase
 
     protected readonly IMilkshakeService Service;
     protected readonly IMilkshakeInstance Instance;
+    protected readonly IMediaService Media;
     protected readonly IGenerationService Generation;
 }

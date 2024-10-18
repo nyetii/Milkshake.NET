@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Milkshake.Generation;
 using Milkshake.Instances;
+using Milkshake.Media;
 
 namespace Milkshake.Configuration;
 
@@ -16,7 +17,10 @@ public static class MilkshakeConfigurationExtensions
         services.AddOptions<MilkshakeOptions>();
         services.AddSingleton<IMilkshakeService, MilkshakeService>();
         services.AddSingleton<IGenerationService, GenerationService>();
+
         services.AddScoped<IMilkshakeInstance, MilkshakeInstance>();
+
+        services.AddTransient<IMediaService, MediaService>();
 
         return services;
     }

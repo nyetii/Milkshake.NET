@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace Milkshake.Media.Models;
 
-public class Template : IMilkshake, IMedia<Template>
+public class Template : Media, IMilkshake
 {
     public Guid Id { get; init; }
     public DateTime CreatedAt { get; init; }
@@ -14,9 +14,6 @@ public class Template : IMilkshake, IMedia<Template>
     public Size Size { get; init; }
 
     public ICollection<object> Toppings { get; set; } = [];
-
-    [Required(AllowEmptyStrings = false)]
-    public string FileName { get; set; } = null!;
 
     public Task<Template> LoadAsync()
     {
