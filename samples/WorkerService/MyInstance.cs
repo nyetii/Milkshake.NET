@@ -1,4 +1,5 @@
-﻿using Milkshake;
+﻿using System.Drawing;
+using Milkshake;
 using Milkshake.Media;
 
 namespace WorkerService;
@@ -25,8 +26,15 @@ public class MyInstance : InstanceBase
         //    }
         //    await Task.Delay(1000, stoppingToken);
         //}
-        
-        var test = await Media.LoadAsync<Source>();
+
+        var works = Media.Create<Source>();
+        works.Name = "Wowzers 4!";
+
+        await Media.SaveAsync<Source>(works);
+
+        await using var test = await Media.LoadAsync<Source>();
+
+        _logger.LogWarning(test.Name);
 
         var gen = Instance.CreateGeneration();
         var gen2 = Instance.CreateGeneration();

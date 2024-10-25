@@ -12,7 +12,6 @@ public class MilkshakeInstance : IMilkshakeInstance
 
     private readonly IMilkshakeService _service;
 
-    // TODO: Rename to Name, because Name is fugly.
     [Required(AllowEmptyStrings = false)]
     public string Name { get; set; } = "default";
 
@@ -64,7 +63,8 @@ public class MilkshakeInstance : IMilkshakeInstance
 
         var directory = _service.GetDirectory<Source>(Name, "metadata.json");
 
-        var json = JsonSerializer.Deserialize<Dictionary<Guid, T>>(directory);
+        var file = File.ReadAllText(directory);
+        var json = JsonSerializer.Deserialize<Dictionary<Guid, T>>(file, _service.SerializerOptions);
 
         if (json is null)
             throw new Exception($"metadata.json of {typeof(T).Name} could not be loaded.");

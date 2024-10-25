@@ -15,7 +15,7 @@ public static class MilkshakeConfigurationExtensions
         return services.AddMilkshake();
     }
 
-    public static IServiceCollection AddMilkshake(this IServiceCollection services, ConfigurationManager configuration, string name = "Milkshake")
+    public static IServiceCollection AddMilkshake(this IServiceCollection services, IConfiguration configuration, string name = "Milkshake")
     {
         services.AddOptions<MilkshakeOptions>()
             .Configure(options => 

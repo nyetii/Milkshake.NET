@@ -10,7 +10,7 @@ public class Template : Media, IMilkshake
 
     public string Name { get; set; } = null!;
     public string Description { get; set; } = string.Empty;
-    public Size Size { get; init; }
+    public Size Size { get; set; }
 
     public ICollection<object> Toppings { get; set; } = [];
 

@@ -1,11 +1,14 @@
-﻿namespace Milkshake.Media;
+﻿using System.Text.Json.Serialization;
+
+namespace Milkshake.Media;
 
 public abstract class Media : IMedia, IDisposable, IAsyncDisposable
 {
     public string FileName { get; set; } = null!;
-    public MemoryStream Stream { get; set; } = null!;
+    [JsonIgnore]
+    public MemoryStream Stream { get; set; } = new();
 
-    public long Size => Stream.Length;
+    public long Length => Stream.Length;
 
     public void Dispose()
     {

@@ -10,6 +10,5 @@ public class Milkshake : IMilkshake
 
     public string Name { get; set; } = null!;
     public string Description { get; set; } = string.Empty;
-
-    public Size Size { get; init; }
+    public Size Size { get; set; }
 }

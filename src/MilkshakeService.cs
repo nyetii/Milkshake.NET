@@ -4,6 +4,7 @@ using System.Runtime.InteropServices.Marshalling;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Milkshake.Configuration;
+using System.Text.Json;
 
 namespace Milkshake;
 
@@ -12,6 +13,8 @@ public class MilkshakeService : IMilkshakeService
     internal Dictionary<string, MilkshakeInstance> Instances { get; init; } = [];
 
     public MilkshakeOptions Options { get; init; }
+
+    public JsonSerializerOptions SerializerOptions => new(JsonSerializerDefaults.Web) { WriteIndented = true };
 
     private readonly IGenerationService _generation;
 

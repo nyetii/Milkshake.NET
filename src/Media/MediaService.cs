@@ -1,4 +1,6 @@
 ﻿using System.Linq.Expressions;
+using System.Runtime.InteropServices.Marshalling;
+using System.Text.Json;
 
 namespace Milkshake.Media;
 
@@ -83,5 +85,58 @@ public class MediaService : IMediaService
         await file.CopyToAsync(milkshake.Stream);
 
         return milkshake;
+    }
+
+    public async Task<bool> SaveAsync<T>(IMilkshake milkshake, CancellationToken cancellationToken = default) where T : Media, IMilkshake, new()
+    {
+        var dictionary = GetDictionary<T>();
+
+        if (milkshake is not T metadata)
+            return false;
+
+        if (!dictionary.TryAdd(milkshake.Id, metadata))
+            return false;
+
+        var directory = new DirectoryInfo(_service.GetDirectory<T>(_instance.Name));
+
+        metadata.FileName = $"{milkshake.Id}.webp";
+
+        if (_service.Options.SerializeMilkshakes)
+            await UpdateMetadataFileAsync(directory, dictionary, cancellationToken);
+        
+        // TODO: Replace this with ImageMagick later on.
+        await using var image = new FileStream($"{directory}/{metadata.FileName}", FileMode.Create);
+
+        await metadata.Stream.CopyToAsync(image, cancellationToken);
+
+        return true;
+    }
+
+    private async Task UpdateMetadataFileAsync<T>(DirectoryInfo directory, Dictionary<Guid, T> dictionary, CancellationToken cancellationToken = default) where T : Media, IMilkshake, new()
+    {
+        var metadata = directory.GetFiles().FirstOrDefault(x => x.Name is "metadata.json");
+
+        if (metadata is null)
+            throw new Exception($"Could not find metadata file for {typeof(T).Name}.");
+
+        await using var stream = metadata.OpenWrite();
+        if (stream is null)
+            throw new Exception();
+        
+        await JsonSerializer.SerializeAsync(stream, dictionary, _service.SerializerOptions, cancellationToken);
+
+        //await stream.CopyToAsync(file, cancellationToken);
+    }
+
+    private Dictionary<Guid, T> GetDictionary<T>() where T : Media, IMilkshake, new()
+    {
+        var t = new T();
+
+        return t switch
+        {
+            Source => _instance.Sources as Dictionary<Guid, T> ?? throw new Exception("Source Dictionary is null."),
+            Template => throw new NotImplementedException(),
+            _ => throw new Exception("Unsupported type."),
+        };
     }
 }

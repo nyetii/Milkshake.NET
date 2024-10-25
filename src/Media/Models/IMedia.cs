@@ -6,7 +6,7 @@ public interface IMedia
 
     public MemoryStream Stream { get; internal set; }
 
-    public long Size { get; }
+    public long Length { get; }
 
     // TODO: Remove Load, Save, Rename, Delete methods.
     // TODO: Add MemoryStream property.
